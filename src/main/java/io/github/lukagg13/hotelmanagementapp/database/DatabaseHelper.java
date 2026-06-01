@@ -1,23 +1,24 @@
 package io.github.lukagg13.hotelmanagementapp.database;
 
-import org.example.java.exception.DatabaseException;
+import io.github.lukagg13.hotelmanagementapp.exception.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static org.example.java.database.DatabaseUtils.createConnection;
+import static io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils.createConnection;
 
 public class DatabaseHelper {
     private DatabaseHelper() {}
     private static final Logger log = LoggerFactory.getLogger(DatabaseHelper.class);
 
     public static void createTables() throws DatabaseException, IOException, SQLException {
+        //TODO: create amenites table i maknut enums i accounts table
         try (var connection = createConnection()) {
-            log.debug("Creating table users");
+            log.info("Creating tables");
             var preparedStatement = connection.prepareStatement("""
-                    CREATE TABLE IF NOT EXISTS users (
+                    CREATE TABLE IF NOT EXISTS guests (
                                       id UUID,
                                       ime VARCHAR(50) NOT NULL,
                                       age INT NOT NULL,
@@ -28,19 +29,30 @@ public class DatabaseHelper {
             preparedStatement.executeUpdate();
 
 
-           connection.prepareStatement("""
-                    CREATE TABLE IF NOT EXISTS admin (
-                               user_id UUID PRIMARY KEY,
-                               FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-                           );
-                    """).executeUpdate();
+            connection.prepareStatement("""
+    CREATE TABLE IF NOT EXISTS roles (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(20) UNIQUE
+    )
+""").executeUpdate();
 
             connection.prepareStatement("""
-                           CREATE TABLE IF NOT EXISTS guest (
-                               user_id UUID PRIMARY KEY,
-                               FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-                           );
-                    """).executeUpdate();
+    MERGE INTO roles (id, name)
+    KEY(id)
+    VALUES 
+        (1, 'Admin'),
+        (2, 'HotelStaff')
+""").executeUpdate();
+
+            connection.prepareStatement("""
+    CREATE TABLE IF NOT EXISTS users (
+        id UUID PRIMARY KEY,
+        username VARCHAR(50),
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        role_id INT,
+        FOREIGN KEY (role_id) REFERENCES roles(id)
+    )
+""").executeUpdate();
 
             connection.prepareStatement("""
                     CREATE TABLE IF NOT EXISTS reviews (
@@ -64,7 +76,6 @@ public class DatabaseHelper {
                           distance_from_city_center DECIMAL(9, 2) NOT NULL,
                           distance_from_beach DECIMAL(9, 2) NOT NULL,
                           room_number INT NOT NULL,
-                          amenities ENUM('GYM', 'WIFI', 'POOL', 'PARKING', 'SPA', 'BREAKFAST') ARRAY
                                                                         );
                         """).executeUpdate();
 
@@ -79,16 +90,13 @@ public class DatabaseHelper {
                     FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE
                         );
                     """).executeUpdate();
-            /*
             connection.prepareStatement("""
                         CREATE TABLE IF NOT EXISTS amenities (
                             id INT AUTO_INCREMENT PRIMARY KEY,          
                             name VARCHAR(50) NOT NULL UNIQUE 
                         );
                     """).executeUpdate();
-             */
 
-            /*
             connection.prepareStatement("""
                     INSERT IGNORE INTO amenities (name)
                     VALUES
@@ -100,8 +108,6 @@ public class DatabaseHelper {
                         ('BREAKFAST');
                     """).executeUpdate();
 
-             */
-            /*
             connection.prepareStatement("""
                         CREATE TABLE IF NOT EXISTS room_amenities (
                             room_id INT NOT NULL,
@@ -111,7 +117,10 @@ public class DatabaseHelper {
                             FOREIGN KEY (amenity_id) REFERENCES amenities(id) ON DELETE CASCADE
                         );
                     """).executeUpdate();
-             */
+
+            connection.prepareStatement("""
+                        CREATE TABLE IF NOT EXISTS accounts
+                    """).executeUpdate();
         }
     }
 }
