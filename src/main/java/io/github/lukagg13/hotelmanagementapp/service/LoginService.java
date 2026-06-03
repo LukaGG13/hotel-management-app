@@ -1,27 +1,28 @@
 package io.github.lukagg13.hotelmanagementapp.service;
 
-/*
-import org.example.java.components.AuthorizedTab;
-import org.example.java.entity.admin.Admin;
-import org.example.java.entity.guest.Guest;
-import org.example.java.entity.repository.Repository;
-import org.example.java.entity.user.User;
-import org.example.java.files.PasswordUtils;
+import io.github.lukagg13.hotelmanagementapp.file.PasswordUtils;
+import io.github.lukagg13.hotelmanagementapp.repository.UsersRepository;
+import io.github.lukagg13.hotelmanagementapp.entity.User;
 
- */
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public record LoginService() {
-}
-/*
-public record LoginService(Repository repository) {
+import java.util.Optional;
+
+public class LoginService {
     //get user igs
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
+    private final UsersRepository repository;
+    private User loggedInUser;
+
+    public LoginService(UsersRepository usersRepository) {
+        this.repository = usersRepository;
+    }
 
     public enum AuthorizationLevelOfRole {
         ADMIN(0),
-        GUEST(10),
+        HOTEL_STAFF(10),
         UNSIGNED(10_000);
 
         private final Integer authorizationLevel;
@@ -35,39 +36,31 @@ public record LoginService(Repository repository) {
     }
 
     private boolean authentication(User user, String password) {
-        return PasswordUtils.check(user.getId(), password);
+        return PasswordUtils.check(user.getUuid(), password);
     }
 
 
     public void login(String name, String password) {
-        log.debug("Logg in in as: {} with password: {}",name, password);
+        log.debug("Login attempt in in as: {} with password: {}", name, password);
 
         //TODO: stavi u db zbog speed il ne igs nije bitno
-        var resultList = repository.getUsers().stream().filter(user -> user.getName().equals(name)).toList();
+        var resultList = repository.getAll().stream().filter(user -> user.getUserName().equals(name)).toList();
         if (resultList.isEmpty()) throw  new IllegalStateException("No user found"); //TODO: ILI throw custom exeption mislim da cu trhowat coustom exeptionen tu da se rijseim ovoh uvjeta za prjektni i bolej je bacat expetion
         if (resultList.size() > 1) throw new RuntimeException("what the hleyyl ovo se nije smelo dogodit"); //TODO enforce unique in db
+        //TODO: prosli gale je smart bio, al validno bi bilo enforcar unique u bazi
 
         var user = resultList.getFirst();
-        if (!authentication(user, password)) throw new IllegalStateException("Passowrd dont match"); //TODO: coustom
+        if (!authentication(user, password)) throw new IllegalStateException("Password doesn't match"); //TODO: coustom
 
-        log.debug("Logg in succeful login in as user: {}", user);
-        repository.setActiveUser(user);
+        log.debug("Login in successful login in as user: {}", user);
+        loggedInUser = user;
     }
 
     public void logout() {
-        repository.setActiveUser(null); //TODO: nuh uh vjerovatno ce bum zbog nullable u optional
+        loggedInUser = null;
     }
 
-    //TODO implement this class
-    //public boolean authorization(AuthorizedTab tab) {
-    public boolean authorization(AuthorizedTab tab) {
-        var permissionLevelOfActiveUser = switch (repository.getActiveUser().orElse(null)) {
-            case Admin _ -> AuthorizationLevelOfRole.ADMIN.getAuthorizationLevel();
-            case Guest _ -> AuthorizationLevelOfRole.GUEST.getAuthorizationLevel();
-            case null, default -> AuthorizationLevelOfRole.UNSIGNED.getAuthorizationLevel();
-        };
-        log.debug("Checking authorization for tab tab name: {}, user permission levle is: {}", tab, permissionLevelOfActiveUser);
-        return tab.getAllowedPermissionLevel() >= permissionLevelOfActiveUser;
+    public Optional<User> getLoggedInUser() {
+        return Optional.of(loggedInUser);
     }
 }
-*/

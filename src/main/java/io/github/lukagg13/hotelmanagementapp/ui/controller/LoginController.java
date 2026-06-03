@@ -1,12 +1,12 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
+import io.github.lukagg13.hotelmanagementapp.service.LoginService;
+import io.github.lukagg13.hotelmanagementapp.ViewManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.example.java.services.LoginService;
-import org.example.java.ui.RepositoryUiAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,14 +21,12 @@ public class LoginController {
         private PasswordField passwordTextField;
 
         @FXML
-        private Button loginButton; //TODO: ovo sam radio prije bumbija
+        private Button loginButton;
 
-        private final RepositoryUiAdapter repository;
         private final LoginService loginService;
 
-        public LoginController(LoginService loginService, RepositoryUiAdapter repository) {
+        public LoginController(LoginService loginService) {
             this.loginService = loginService;
-            this.repository = repository;
         }
 
         private void loginButtonClicked() {
@@ -41,7 +39,8 @@ public class LoginController {
                 userNameTextField.setText("");
                 passwordTextField.setText("");
                 //TODO: maknuo sam privremeno jel mi se neda svaki put
-                //(new Alert(Alert.AlertType.INFORMATION, "Logged in as " + repository.getActiveUser())).showAndWait();
+                (new Alert(Alert.AlertType.INFORMATION, "Logged in as " + loginService.getLoggedInUser())).showAndWait();
+                ViewManager.switchView("hello-view.fxml");
             } catch (RuntimeException e) {
                 (new Alert(Alert.AlertType.ERROR, e.getMessage())).showAndWait();
             }

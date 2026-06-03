@@ -40,6 +40,31 @@ public class DatabaseUtils {
             throw new DatabaseException(e);
         }
     }
+
+    /**
+     * Creates and returns a new Database connection from the specified database.properties file.
+     * @param filePath a {@link String} path to the database.properties file we want to use to connect to the database.
+     * @return a {@link Connection} object.
+     * @throws DatabaseException if a sql error happens.
+     * @throws IOException if the {@code filePath} isn't valid.
+     */
+    public static Connection createConnection(String filePath) throws DatabaseException, IOException {
+        log.info("Creating connection to database with filePath: {}", filePath);
+        try (var reader = new FileReader(filePath)) {
+
+            var properties = new Properties();
+            properties.load(reader);
+
+            var url  = properties.getProperty("url");
+            var user = properties.getProperty("username");
+            var pass = properties.getProperty("password");
+
+            return DriverManager.getConnection(url, user, pass);
+        }
+        catch(SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
 }
 /*
 import org.example.java.entity.admin.Admin;
