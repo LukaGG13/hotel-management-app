@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
+import io.github.lukagg13.hotelmanagementapp.HelloController;
 import io.github.lukagg13.hotelmanagementapp.service.LoginService;
 import io.github.lukagg13.hotelmanagementapp.ViewManager;
 import javafx.fxml.FXML;
@@ -40,7 +41,7 @@ public class LoginController {
                 passwordTextField.setText("");
                 //TODO: maknuo sam privremeno jel mi se neda svaki put
                 (new Alert(Alert.AlertType.INFORMATION, "Logged in as " + loginService.getLoggedInUser())).showAndWait();
-                ViewManager.switchView("hello-view.fxml");
+                ViewManager.switchView("hello-view.fxml", new HelloController());
             } catch (RuntimeException e) {
                 (new Alert(Alert.AlertType.ERROR, e.getMessage())).showAndWait();
             }

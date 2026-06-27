@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<HBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.lukagg13.hotelmanagementapp.ui.controller.HeaderController"
+      spacing="20"
+      style="-fx-background-color: #333; -fx-padding: 15;">
+
+    <Button text="Home" onAction="#handleHome"/>
+    <Button text="Dashboard" onAction="#handleDashboard"/>
+    <Button text="Rooms" onAction="#handleRooms"/>
+    <Button text="Bookings" onAction="#handleBookings"/>
+    <Button text="History" onAction="#handleHistory"/>
+</HBox>

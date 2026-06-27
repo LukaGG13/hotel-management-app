@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10">
+
+    <fx:include source="header-view.fxml"/>
+
+    <TableView fx:id="bookingTable">
+        <columns>
+            <TableColumn fx:id="id" text="Booking ID" />
+            <TableColumn fx:id="roomNumber" text="Room Number" />
+            <TableColumn fx:id="checkIn" text="Check-In Date" />
+            <TableColumn fx:id="checkOut" text="Check-Out Date" />
+            <TableColumn fx:id="guestCount" text="Number of Guests" />
+            <TableColumn fx:id="guestNames" text="Occupants" />
+            <TableColumn fx:id="actions" text="Actions" />
+        </columns>
+    </TableView>
+
+    <Button fx:id="addBookingButton" text="Add Booking" />
+
+</VBox>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10">
+
+    <fx:include source="header-view.fxml"/>
+    <TableView fx:id="table">
+        <columns>
+            <TableColumn fx:id="name" text="Name" />
+            <TableColumn fx:id="age" text="Age" />
+            <TableColumn fx:id="editAndDelete" text="Actions" />
+        </columns>
+    </TableView>
+
+    <Button fx:id="addGuestButton" text="Add Guest" />
+
+</VBox>

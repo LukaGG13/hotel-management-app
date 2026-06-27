@@ -17,6 +17,7 @@
 
     <VBox spacing="15"
           alignment="TOP_CENTER">
+        <fx:include source="header-view.fxml"/>
 
         <ImageView fitWidth="113"
                    fitHeight="113"

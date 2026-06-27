@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10">
+
+    <fx:include source="header-view.fxml"/>
+    <TableView fx:id="table">
+        <columns>
+            <TableColumn fx:id="id" text="ID" />
+            <TableColumn fx:id="numOfBeds" text="Beds" />
+            <TableColumn fx:id="sizeInSqrM" text="Size m^2" />
+            <TableColumn fx:id="pricePerNight" text="Price per night" />
+            <TableColumn fx:id="distanceFromCityCenter" text="Distance city km" />
+            <TableColumn fx:id="distanceFromBeach" text="Distance beach km" />
+            <TableColumn fx:id="roomNumber" text="Room number" />
+            <TableColumn fx:id="amenities" text="Amenities" />
+            <TableColumn fx:id="editAndDelete" text="Actions" />
+        </columns>
+    </TableView>
+
+    <Button fx:id="addRoomButton" text="Add Room" />
+
+</VBox>
+
