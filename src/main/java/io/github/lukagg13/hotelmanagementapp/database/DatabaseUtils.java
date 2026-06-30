@@ -11,6 +11,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * A utility class for interacting with the database.
+ */
 public class DatabaseUtils {
     private DatabaseUtils() {}
 

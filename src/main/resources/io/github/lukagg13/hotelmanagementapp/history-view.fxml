@@ -8,8 +8,13 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:id="historyVBox"
       spacing="10">
 
+    <fx:include source="header-view.fxml"/>
+    <VBox xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:id="historyVBox"
+        spacing="10">
+    </VBox>
 
 </VBox>

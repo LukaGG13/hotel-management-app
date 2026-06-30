@@ -3,6 +3,7 @@ package io.github.lukagg13.hotelmanagementapp.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.EnumSet;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.UUID;
  * @version 1.0
  * @author luka
  */
-public final class Room {
+public final class Room implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(Room.class);
     private final UUID uuid;
     private final Integer numOfBeds;
@@ -23,7 +24,7 @@ public final class Room {
     private final BigDecimal distanceFromCityCenter;
     private final BigDecimal distanceFromBeach;
     private final Integer roomNumber;
-    public enum Amenity {GYM, WIFI, POOL, PARKING, SPA, BREAKFAST;}
+    public enum Amenity {GYM, WIFI, POOL, PARKING, SPA, BREAKFAST}
     private final Set<Amenity> amenities;
 
     /**

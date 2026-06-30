@@ -14,7 +14,7 @@ public class LoginService {
     //get user igs
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
     private final UsersRepository repository;
-    private User loggedInUser;
+    private static User loggedInUser = null;
 
     public LoginService(UsersRepository usersRepository) {
         this.repository = usersRepository;
@@ -56,11 +56,11 @@ public class LoginService {
         loggedInUser = user;
     }
 
-    public void logout() {
+    public static void logout() {
         loggedInUser = null;
     }
 
-    public Optional<User> getLoggedInUser() {
-        return Optional.of(loggedInUser);
+    public static Optional<User> getLoggedInUser() {
+        return Optional.ofNullable(loggedInUser);
     }
 }

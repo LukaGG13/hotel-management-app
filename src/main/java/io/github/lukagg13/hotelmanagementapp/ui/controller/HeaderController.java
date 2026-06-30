@@ -12,6 +12,7 @@ import io.github.lukagg13.hotelmanagementapp.service.LoginService;
 import io.github.lukagg13.hotelmanagementapp.service.RoomService;
 import io.github.lukagg13.hotelmanagementapp.ui.controller.booking.BookingController;
 import io.github.lukagg13.hotelmanagementapp.ui.controller.guest.GuestController;
+import io.github.lukagg13.hotelmanagementapp.ui.controller.history.HistoryController;
 import io.github.lukagg13.hotelmanagementapp.ui.controller.room.RoomController;
 import javafx.fxml.FXML;
 import org.slf4j.Logger;

@@ -16,4 +16,5 @@ module io.github.lukagg13.hotelmanagementapp {
     opens io.github.lukagg13.hotelmanagementapp.ui.controller.room to javafx.fxml;
     opens io.github.lukagg13.hotelmanagementapp.ui.controller.booking to javafx.fxml;
     exports io.github.lukagg13.hotelmanagementapp;
+    opens io.github.lukagg13.hotelmanagementapp.ui.controller.history to javafx.fxml;
 }

@@ -2,7 +2,6 @@ package io.github.lukagg13.hotelmanagementapp.repository;
 
 import io.github.lukagg13.hotelmanagementapp.entity.Booking;
 import io.github.lukagg13.hotelmanagementapp.entity.Guest;
-import io.github.lukagg13.hotelmanagementapp.entity.Room;
 import io.github.lukagg13.hotelmanagementapp.exception.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

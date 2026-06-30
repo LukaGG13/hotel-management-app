@@ -22,23 +22,11 @@ public final class GuestService {
     }
 
     public boolean create(Guest guest) {
-        try {
-            History.appendLog("test",  null, guest);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //History.addLog();
         return guestRepository.create(guest);
     }
 
     public List<Guest> getAll() {
-        try {
-            var historyRecordLogs = History.readAllLogs();
-            for (var historyLog: historyRecordLogs) {
-                log.debug(historyLog.name() + " " + historyLog.timeStamp() + " " + historyLog.oldObject() + " " + historyLog.newObject());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         return guestRepository.getAll();
     }
 
