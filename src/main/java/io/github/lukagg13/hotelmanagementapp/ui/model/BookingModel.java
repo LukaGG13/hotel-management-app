@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -33,6 +34,8 @@ public class BookingModel {
 
     public BookingModel() {
         bookingUUID.setValue(UUID.randomUUID());
+        checkInDate.setValue(LocalDate.now());
+        checkOutDate.setValue(LocalDate.now().plusDays(1));
     }
 
     public void setRoom(RoomModel roomModel) {

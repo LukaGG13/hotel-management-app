@@ -1,14 +1,11 @@
 package io.github.lukagg13.hotelmanagementapp.service;
 
-import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
 import io.github.lukagg13.hotelmanagementapp.entity.Booking;
 import io.github.lukagg13.hotelmanagementapp.file.History;
 import io.github.lukagg13.hotelmanagementapp.file.HistoryRecordLog;
 import io.github.lukagg13.hotelmanagementapp.repository.BookingRepository;
-import io.github.lukagg13.hotelmanagementapp.repository.UsersRepository;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

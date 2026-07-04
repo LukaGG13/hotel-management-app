@@ -1,55 +1,70 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
 import io.github.lukagg13.hotelmanagementapp.ViewManager;
-import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
-import io.github.lukagg13.hotelmanagementapp.repository.BookingRepository;
-import io.github.lukagg13.hotelmanagementapp.repository.GuestRepository;
-import io.github.lukagg13.hotelmanagementapp.repository.RoomRepository;
-import io.github.lukagg13.hotelmanagementapp.repository.UsersRepository;
-import io.github.lukagg13.hotelmanagementapp.service.BookingService;
-import io.github.lukagg13.hotelmanagementapp.service.GuestService;
-import io.github.lukagg13.hotelmanagementapp.service.LoginService;
-import io.github.lukagg13.hotelmanagementapp.service.RoomService;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.booking.BookingController;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.guest.GuestController;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.history.HistoryController;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.room.RoomController;
+import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 
 public class HeaderController {
 
-    final static Logger log = LoggerFactory.getLogger(HeaderController.class);
+    static final Logger log = LoggerFactory.getLogger(HeaderController.class);
+    static final String USER_NOT_LOGGED_IN_ERROR_MESSAGE = "You are not logged in, please login in first Thank you!";
+
     @FXML
-    private void handleHome() throws IOException {
-        log.debug("handle home clicked");
-        ViewManager.switchView("login-view.fxml", new LoginController(new LoginService(new UsersRepository(DatabaseUtils.createConnection()))));
+    private void handleLogin() {
+        log.debug("handle login clicked");
+        ViewManager.switchView(ViewManager.ViewPath.LOGIN);
     }
 
     @FXML
-    private void handleDashboard() throws IOException {
-        log.debug("handle dashboard clicked");
-        ViewManager.switchView("guest-view.fxml", new GuestController(new GuestService(new GuestRepository(DatabaseUtils.createConnection()))));
+    private void handleGuests() {
+        log.debug("handle guests clicked");
+        try {
+            ViewManager.switchView(ViewManager.ViewPath.GUEST);
+        } catch (NotLoggedInException e) {
+            log.error("Trying to access guests without being logged in {}", e.getMessage());
+            new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
+            handleLogin();
+        }
     }
 
     @FXML
-    private void handleRooms() throws IOException {
+    private void handleRooms() {
         log.debug("handle rooms clicked");
-        ViewManager.switchView("room-view.fxml", new RoomController(new RoomService(new RoomRepository(DatabaseUtils.createConnection()))));
+        try {
+            ViewManager.switchView(ViewManager.ViewPath.ROOM);
+        } catch (NotLoggedInException e) {
+            log.error("Trying to access room without being logged in  {}", e.getMessage());
+            new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
+            handleLogin();
+        }
     }
 
     @FXML
-    private void handleBookings() throws IOException {
+    private void handleBookings() {
         log.debug("handle bookings clicked");
-        ViewManager.switchView("booking-view.fxml", new BookingController(new BookingService(new BookingRepository(DatabaseUtils.createConnection()))));
+        try {
+            ViewManager.switchView(ViewManager.ViewPath.BOOKING);
+
+        } catch (NotLoggedInException e) {
+            log.error("Trying to access booking without being logged in {}", e.getMessage());
+            new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
+            handleLogin();
+        }
     }
 
     @FXML
-    private void handleHistory() throws IOException {
+    private void handleHistory() {
         log.debug("handle History clicked");
-        ViewManager.switchView("history-view.fxml", new HistoryController());
+        try {
+            ViewManager.switchView(ViewManager.ViewPath.HISTORY_VIEW);
+        } catch (NotLoggedInException e) {
+            log.error("Trying to access history without being logged in {}", e.getMessage());
+            new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
+            handleLogin();
+        }
     }
 }

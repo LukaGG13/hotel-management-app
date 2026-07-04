@@ -1,10 +1,8 @@
 package io.github.lukagg13.hotelmanagementapp;
 
 import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
-import io.github.lukagg13.hotelmanagementapp.repository.GuestRepository;
-import io.github.lukagg13.hotelmanagementapp.service.GuestService;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.booking.BookingController;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.guest.GuestController;
+import io.github.lukagg13.hotelmanagementapp.repository.UsersRepository;
+import io.github.lukagg13.hotelmanagementapp.service.LoginService;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,9 +10,13 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage)  {
         ViewManager.setStage(stage);
-        GuestController guestController = new GuestController(new GuestService(new GuestRepository(DatabaseUtils.createConnection())));
-        ViewManager.switchView("guest-view.fxml", guestController);
+        ViewManager.switchView(ViewManager.ViewPath.LOGIN);
+        try {
+            new LoginService(new UsersRepository(DatabaseUtils.createConnection())).login("Luka","1234");
+        } catch (Exception _) {
+
+        }
     }
 }

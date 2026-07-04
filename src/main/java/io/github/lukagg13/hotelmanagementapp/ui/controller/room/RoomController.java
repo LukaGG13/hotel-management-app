@@ -4,57 +4,39 @@ import io.github.lukagg13.hotelmanagementapp.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.service.RoomService;
 import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;
 import io.github.lukagg13.hotelmanagementapp.ui.model.RoomModel;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class RoomController {
 
     @FXML
     private TableView<RoomModel> table;
-
     @FXML
     private TableColumn<RoomModel, String> id;
-
     @FXML
     private TableColumn<RoomModel, Integer> numOfBeds;
-
     @FXML
     private TableColumn<RoomModel, String> sizeInSqrM;
-
     @FXML
     private TableColumn<RoomModel, String> pricePerNight;
-
     @FXML
     private TableColumn<RoomModel, String> distanceFromCityCenter;
-
     @FXML
     private TableColumn<RoomModel, String> distanceFromBeach;
-
     @FXML
     private TableColumn<RoomModel, String> roomNumber;
-
     @FXML
     private TableColumn<RoomModel, String> amenities;
-
     @FXML
     private TableColumn<RoomModel, Object> editAndDelete;
-
     @FXML Button addRoomButton;
 
     private final ObservableList<RoomModel> data = FXCollections.observableArrayList();
@@ -76,7 +58,6 @@ public class RoomController {
         distanceFromCityCenter.setCellValueFactory(f -> f.getValue().distanceFromCityCenterProperty());
         distanceFromBeach.setCellValueFactory(f -> f.getValue().distanceFromBeachProperty());
         roomNumber.setCellValueFactory(f -> f.getValue().roomNumberProperty());
-        //amenities.setCellValueFactory(f -> Bindings.createStringBinding(() -> f.getValue().getAmenities().toString(), f.getValue().amenitiesProperty()));
         amenities.setCellValueFactory(f -> f.getValue().amenitiesProperty());
 
         editAndDelete.setCellFactory(getEditAndDeleteColumn().getCellFactory());
@@ -87,7 +68,6 @@ public class RoomController {
         addRoomButton.setOnAction(_ -> {
             openRoomModal(null);
             data.setAll(getListOfRoomModels());
-
         });
     }
 
@@ -133,46 +113,11 @@ public class RoomController {
                 ? new RoomCreateController(new RoomModel(), roomService::create, title)
                 : new RoomCreateController(room, roomService::update, title);
 
-        Optional<RoomModel> result = new Modal.ModalBuilder<RoomCreateController, RoomModel>(ViewManager.ViewPath.ROOM_CREATE)
+        new Modal.ModalBuilder<RoomCreateController, RoomModel>(ViewManager.ViewPath.ROOM_CREATE)
                 .title(title)
                 .controller(controller)
                 .build()
                 .showAndWait();
-
-// Handle the result safely if needed
-        result.ifPresent(updatedRoom -> {
-            // Refresh your table or update your UI here
-        });
-        /*
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/io/github/lukagg13/hotelmanagementapp/room-create.fxml"));
-
-            RoomCreateController roomCreateController;
-            var title = "";
-            if (room == null) {
-                title = "Add New Room";
-                roomCreateController = new RoomCreateController(new RoomModel(), roomService::create, title);
-            } else {
-                title = "Edit Room";
-                roomCreateController = new RoomCreateController(room, roomService::update, title);
-            }
-            loader.setController(roomCreateController);
-
-            Parent root = loader.load();
-            Stage modalStage = new Stage();
-
-            modalStage.setTitle(title);
-            modalStage.initModality(Modality.APPLICATION_MODAL);
-            modalStage.setScene(new Scene(root));
-
-            modalStage.showAndWait();
-        } catch (IOException e) {
-            log.error("Error loading view {}", e.getMessage());
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Could not load.");
-            alert.showAndWait();
-        }
-    */
     }
 }
 

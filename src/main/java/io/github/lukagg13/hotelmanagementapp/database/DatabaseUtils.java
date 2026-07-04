@@ -24,9 +24,8 @@ public class DatabaseUtils {
      * Creates and returns a new Database connection.
      * @return a {@link Connection} object.
      * @throws DatabaseException if there is an error establishing the connection.
-     * @throws IOException if the database.properties doesn't exist.
      */
-    public static Connection createConnection() throws DatabaseException, IOException {
+    public static Connection createConnection() throws DatabaseException {
         log.info("Creating connection to database.");
         try (var reader = new FileReader(DATABASE_FILE)) {
 
@@ -39,7 +38,7 @@ public class DatabaseUtils {
 
             return DriverManager.getConnection(url, user, pass);
         }
-        catch(SQLException e) {
+        catch(SQLException | IOException e) {
             throw new DatabaseException(e);
         }
     }

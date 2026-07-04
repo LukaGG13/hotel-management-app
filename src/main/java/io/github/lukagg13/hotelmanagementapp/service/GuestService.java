@@ -35,6 +35,12 @@ public final class GuestService {
     }
 
     public Boolean deleteWithUUID(UUID uuid) {
+        var userName = LoginService.getLoggedInUser().isPresent() ? LoginService.getLoggedInUser().get().getUserName() : "Unknown User";
+        var oldValueOption = getWithUUID(uuid);
+        var oldValue = oldValueOption.isPresent() ? oldValueOption.get() : null;
+
+        History.addLog(new HistoryRecordLog(userName, LocalDateTime.now(), oldValue, null));
+
         return guestRepository.deleteWithUUID(uuid);
     }
 

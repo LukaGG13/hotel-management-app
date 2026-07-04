@@ -1,6 +1,7 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
-import io.github.lukagg13.hotelmanagementapp.HelloController;
+import io.github.lukagg13.hotelmanagementapp.exception.IncorrectPasswordException;
+import io.github.lukagg13.hotelmanagementapp.exception.UserNotFoundException;
 import io.github.lukagg13.hotelmanagementapp.service.LoginService;
 import io.github.lukagg13.hotelmanagementapp.ViewManager;
 import javafx.fxml.FXML;
@@ -17,10 +18,8 @@ public class LoginController {
 
         @FXML
         private TextField userNameTextField;
-
         @FXML
         private PasswordField passwordTextField;
-
         @FXML
         private Button loginButton;
 
@@ -39,22 +38,22 @@ public class LoginController {
                 loginService.login(name, password);
                 userNameTextField.setText("");
                 passwordTextField.setText("");
-                //TODO: maknuo sam privremeno jel mi se neda svaki put
-                (new Alert(Alert.AlertType.INFORMATION, "Logged in as " + loginService.getLoggedInUser())).showAndWait();
-                ViewManager.switchView("hello-view.fxml", new HelloController());
-            } catch (RuntimeException e) {
-                (new Alert(Alert.AlertType.ERROR, e.getMessage())).showAndWait();
+
+                (new Alert(Alert.AlertType.INFORMATION, "Successful login")).showAndWait();
+                ViewManager.switchView(ViewManager.ViewPath.GUEST);
+            } catch (UserNotFoundException | IncorrectPasswordException e) {
+                if(e instanceof UserNotFoundException) log.error("Trying to log in as wrong user name");
+                if(e instanceof IncorrectPasswordException) log.error("Trying to log in with wrong password");
+
+                (new Alert(Alert.AlertType.ERROR, "User name or password is wrong please try again." )).showAndWait();
             }
         }
 
         @FXML
         private void initialize() {
-
-            //loginButton.setOnAction(_ -> (new Alert(Alert.AlertType.INFORMATION, "hello")).showAndWait());
             loginButton.setOnAction(_ -> loginButtonClicked());
 
-            //TODO passwordTextField = validating text field
-            //TODD link na create account isto dodat stvar za password
-            //repository.login();
+            //TODO: passwordTextField = validating text field
+            //TODO: link na create account isto dodat stvar za password
         }
 }

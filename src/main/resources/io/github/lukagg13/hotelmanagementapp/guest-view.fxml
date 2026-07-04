@@ -5,19 +5,30 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.Button?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      spacing="10">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets left="10.0" right="10.0" />
+    </padding>
 
-    <fx:include source="header-view.fxml"/>
+    <fx:include source="header-view.fxml" />
+    <HBox alignment="CENTER_LEFT" prefHeight="35.0" spacing="10.0">
+        <children>
+            <TextField fx:id="searchTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="Search..." HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="editGuestButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Edit" />
+            <Button fx:id="deleteGuestButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Delete" />
+        </children>
+    </HBox>
     <TableView fx:id="table">
         <columns>
             <TableColumn fx:id="name" text="Name" />
             <TableColumn fx:id="age" text="Age" />
-            <TableColumn fx:id="editAndDelete" text="Actions" />
         </columns>
     </TableView>
 
-    <Button fx:id="addGuestButton" text="Add Guest" />
+    <Button fx:id="addGuestButton" prefHeight="35" text="Add Guest" />
 
 </VBox>

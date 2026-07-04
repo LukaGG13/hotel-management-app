@@ -1,42 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import io.github.lukagg13.hotelmanagementapp.ui.component.ValidatingTextField?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Text layoutX="31.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of beds" />
-      <Spinner fx:id="numberOfBedsSpinner" layoutX="31.0" layoutY="71.0" />
-            <ValidatingTextField fx:id="pricePerNightValidatingTextField" layoutX="226.0" layoutY="71.0" />
-            <ValidatingTextField fx:id="sizeOfRoomValidatingTextField" layoutX="31.0" layoutY="127.0" />
-            <ValidatingTextField fx:id="distanceFromCityValidatingTextField" layoutX="226.0" layoutY="127.0" />
-            <ValidatingTextField fx:id="distanceFromBeachValidatingTextField" layoutX="31.0" layoutY="182.0" />
-            <ValidatingTextField fx:id="roomNumberValidatingTextField" layoutX="226.0" layoutY="182.0" />
-            <Label layoutX="31.0" layoutY="110.0" prefHeight="17.0" prefWidth="124.0" text="Size of room in m^2" />
-            <Label layoutX="31.0" layoutY="165.0" prefHeight="17.0" prefWidth="149.0" text="Distance from beach " />
-            <Label layoutX="226.0" layoutY="165.0" prefHeight="17.0" prefWidth="86.0" text="Name" />
-            <Label layoutX="226.0" layoutY="110.0" prefHeight="17.0" prefWidth="149.0" text="Distance from city center " />
-            <Label layoutX="427.0" layoutY="36.0" prefHeight="26.0" prefWidth="100.0" text="Amenites">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <CheckBox fx:id="gymCheckBox" layoutX="427.0" layoutY="71.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Gym" />
-            <CheckBox fx:id="wifiCheckBox" layoutX="492.0" layoutY="71.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Wifi" />
-            <CheckBox fx:id="poolCheckBox" layoutX="427.0" layoutY="105.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Pool" />
-            <CheckBox fx:id="parkingCheckBox" layoutX="492.0" layoutY="105.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Parking" />
-            <CheckBox fx:id="spaCheckBox" layoutX="427.0" layoutY="144.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Spa" />
-            <CheckBox fx:id="breakfastCheckBox" layoutX="492.0" layoutY="144.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="110.0" text="Breakfast" />
-            <Button fx:id="createRoomButton" layoutX="423.0" layoutY="182.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="149.0" text="Create" />
-            <Label layoutX="226.0" layoutY="54.0" prefHeight="17.0" prefWidth="124.0" text="Price per night" />
-            <Separator layoutX="400.0" layoutY="22.0" orientation="VERTICAL" prefHeight="200.0" />
-         </children>
-      </Pane>
+<VBox prefWidth="650.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+
+    <GridPane hgap="30.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="60.0" />
+            <ColumnConstraints percentWidth="40.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints valignment="TOP" />
+        </rowConstraints>
+        <children>
+
+            <GridPane hgap="15.0" vgap="10.0" GridPane.columnIndex="0">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50.0" />
+                    <ColumnConstraints percentWidth="50.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints /> <RowConstraints />
+                    <RowConstraints /> <RowConstraints />
+                    <RowConstraints /> <RowConstraints />
+                </rowConstraints>
+                <children>
+                    <Label text="Number of beds" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Spinner fx:id="numberOfBedsSpinner" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                    <Label text="Price per night" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <ValidatingTextField fx:id="pricePerNightValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 120" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label text="Size of room in m²" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <ValidatingTextField fx:id="sizeOfRoomValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 35" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+                    <Label text="Distance from city center" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <ValidatingTextField fx:id="distanceFromCityValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 1.2 km" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                    <Label text="Distance from beach" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <ValidatingTextField fx:id="distanceFromBeachValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 500 m" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+
+                    <Label text="Name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    <ValidatingTextField fx:id="roomNumberValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. Suite 204" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                </children>
+            </GridPane>
+
+            <VBox spacing="10.0" GridPane.columnIndex="1">
+                <children>
+                    <Label text="Amenities" />
+
+                    <GridPane hgap="10.0" vgap="15.0">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50.0" />
+                            <ColumnConstraints percentWidth="50.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints />
+                            <RowConstraints />
+                            <RowConstraints />
+                        </rowConstraints>
+                        <children>
+                            <CheckBox fx:id="gymCheckBox" text="Gym" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                            <CheckBox fx:id="wifiCheckBox" text="Wifi" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                            <CheckBox fx:id="poolCheckBox" text="Pool" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                            <CheckBox fx:id="parkingCheckBox" text="Parking" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                            <CheckBox fx:id="spaCheckBox" text="Spa" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                            <CheckBox fx:id="breakfastCheckBox" text="Breakfast" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </children>
+                    </GridPane>
+                </children>
+            </VBox>
+
+        </children>
+    </GridPane>
+
+    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+        <children>
+            <Button fx:id="createRoomButton" prefHeight="35.0" prefWidth="130.0" text="Create" />
+        </children>
+    </HBox>
+</VBox>

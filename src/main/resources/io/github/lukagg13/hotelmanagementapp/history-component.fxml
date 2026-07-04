@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root type="javafx.scene.layout.VBox" spacing="8.0" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-border-color: #e0e0e0; -fx-border-radius: 8; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.scene.layout.VBox" spacing="8.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
@@ -15,7 +15,7 @@
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Label>
-                <Label fx:id="timeStampLabel" text="2026-06-28 15:30" textFill="#8c8c8c">
+                <Label fx:id="timeStampLabel" text="2026-06-28 15:30">
                     <font>
                         <Font size="12.0" />
                     </font>
@@ -25,31 +25,25 @@
 
         <HBox spacing="12.0" alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
             <children>
-                <VBox spacing="4.0" HBox.hgrow="ALWAYS" fillWidth="true" style="-fx-background-color: #fafafa; -fx-padding: 8; -fx-background-radius: 4; -fx-border-color: #f0f0f0; -fx-border-radius: 4;">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS" prefWidth="900">
                     <children>
-                        <Label text="BEFORE" textFill="#a0a0a0">
+                        <Label text="BEFORE">
                             <font>
                                 <Font name="System Bold" size="10.0" />
                             </font>
                         </Label>
-                        <Label fx:id="oldObjectLabel" alignment="TOP_LEFT" wrapText="true" text="Old State Data" textFill="#555555" />
+                        <Label fx:id="oldObjectLabel" alignment="TOP_LEFT" wrapText="true" text="Old State Data" />
                     </children>
                 </VBox>
 
-                <Label text="➔" textFill="#999999">
-                    <font>
-                        <Font size="18.0" />
-                    </font>
-                </Label>
-
-                <VBox spacing="4.0" HBox.hgrow="ALWAYS" fillWidth="true" style="-fx-background-color: #f6ffed; -fx-padding: 8; -fx-background-radius: 4; -fx-border-color: #b7eb8f; -fx-border-radius: 4;">
+                <VBox spacing="4.0" HBox.hgrow="ALWAYS" prefWidth="900">
                     <children>
-                        <Label text="AFTER" textFill="#52c41a">
+                        <Label text="AFTER">
                             <font>
                                 <Font name="System Bold" size="10.0" />
                             </font>
                         </Label>
-                        <Label fx:id="newObjectLabel" alignment="TOP_LEFT" wrapText="true" text="New State Data" textFill="#222222" />
+                        <Label fx:id="newObjectLabel" alignment="TOP_LEFT" wrapText="true" text="New State Data" />
                     </children>
                 </VBox>
             </children>

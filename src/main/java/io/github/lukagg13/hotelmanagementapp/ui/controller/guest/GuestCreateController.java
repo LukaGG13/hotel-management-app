@@ -11,31 +11,37 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Consumer;
 
+/**
+ * Controller class used for {@link Guest} creating and editing.
+ */
 public final class GuestCreateController {
 
     private static final Logger log = LoggerFactory.getLogger(GuestCreateController.class);
 
     @FXML
     private ValidatingTextField nameTextField;
-
     @FXML
     private Spinner<Integer> ageSpinner;
-
     @FXML
-    private Button actionButton;
-    private final String buttonText;
+    private Button confirmButton;
+    private boolean confirmed = false;
+
 
     private final GuestModel guestModel;
-    private final Consumer<Guest> action;
 
-    public GuestCreateController(GuestModel guestModel, Consumer<Guest> action, String buttonText) {
+    /**
+     * Return a new instance of the {@link GuestCreateController}.
+     * @param guestModel The {@link GuestModel} that will be bound to the ui.
+     */
+    public GuestCreateController(GuestModel guestModel) {
         this.guestModel = guestModel;
-        this.action = action;
-        this.buttonText = buttonText;
+
     }
 
+    /**
+     * Method used to initialize state for javaFX.
+     */
     @FXML
     private void initialize() {
         SpinnerValueFactory<Integer> spinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100);
@@ -47,19 +53,26 @@ public final class GuestCreateController {
         nameTextField.textProperty().bindBidirectional(guestModel.nameProperty());
         ageSpinner.getValueFactory().valueProperty().bindBidirectional(guestModel.ageProperty());
 
-        actionButton.textProperty().setValue(buttonText);
-        actionButton.setOnAction(_ ->
-        {
-            log.info("Action button clicked");
+        confirmButton.setOnAction(_ -> {
+            log.info("Confirm button clicked");
+            confirmed = false;
             if (nameTextField.isValid()) {
-                action.accept(guestModel.toGuest());
-                Stage stage = (Stage) actionButton.getScene().getWindow();
+                confirmed = true;
+                Stage stage = (Stage) confirmButton.getScene().getWindow();
                 stage.close();
             }
         });
     }
 
+    /**
+     * Returns the {@link GuestModel} that was passed to the constructor.
+     * @return {@link GuestModel} if the user has confirmed the change else return null.
+     */
     public GuestModel getGuestModel() {
-        return guestModel;
+        if (confirmed) {
+            return guestModel;
+        } else {
+            return null;
+        }
     }
 }

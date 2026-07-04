@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
 
-<HBox xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.lukagg13.hotelmanagementapp.ui.controller.HeaderController"
-      spacing="20"
-      style="-fx-background-color: #333; -fx-padding: 15;">
-
-    <Button text="Home" onAction="#handleHome"/>
-    <Button text="Dashboard" onAction="#handleDashboard"/>
-    <Button text="Rooms" onAction="#handleRooms"/>
-    <Button text="Bookings" onAction="#handleBookings"/>
-    <Button text="History" onAction="#handleHistory"/>
+<HBox alignment="CENTER_LEFT" prefHeight="55.0" spacing="20.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.lukagg13.hotelmanagementapp.ui.controller.HeaderController">
+    <padding>
+        <Insets left="20.0" right="20.0" />
+    </padding>
+    <children>
+        <Button mnemonicParsing="false" onAction="#handleLogin" prefHeight="35.0" text="Login" />
+        <Button mnemonicParsing="false" onAction="#handleGuests" prefHeight="35.0" text="Guests" />
+        <Button mnemonicParsing="false" onAction="#handleRooms" prefHeight="35.0" text="Rooms" />
+        <Button mnemonicParsing="false" onAction="#handleBookings" prefHeight="35.0" text="Bookings" />
+        <Button mnemonicParsing="false" onAction="#handleHistory" prefHeight="35.0" text="History" />
+    </children>
 </HBox>

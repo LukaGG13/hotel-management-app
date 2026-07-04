@@ -16,13 +16,16 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GuestSearchController {
-    @FXML private TextField searchField;
-    @FXML private VBox guestsVBox;
-    @FXML private Button selectButton;
-    @FXML private Button createButton;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private VBox guestsVBox;
+    @FXML
+    private Button selectButton;
+    @FXML
+    private Button createButton;
 
     private final ObservableList<GuestModel> masterGuests = FXCollections.observableArrayList();
     private FilteredList<GuestModel> filteredGuests;
@@ -49,20 +52,19 @@ public class GuestSearchController {
         refreshDisplay();
 
         createButton.setOnAction(_ -> {
-            final var buttonClicked = new AtomicBoolean(false);
             var optionalGuestModel = new Modal.ModalBuilder<GuestCreateController, GuestModel>(ViewManager.ViewPath.GUEST_CREATE)
                     .title("Create Guest")
-                    .controller(new GuestCreateController(new GuestModel(), _ -> buttonClicked.set(true) , "Create"))
+                    .controller(new GuestCreateController(new GuestModel()))
                     .mapper(GuestCreateController::getGuestModel)
                     .build()
                     .showAndWait();
 
-            if(!buttonClicked.get() || optionalGuestModel.isEmpty()) return;
-
             var createdGuestModel = optionalGuestModel.orElseThrow();
-            guestService.create(createdGuestModel.toGuest());
-            selectedGuestModels.add(createdGuestModel);
-            masterGuests.add(createdGuestModel);
+            optionalGuestModel.ifPresent(guestModel -> {
+                guestService.create(createdGuestModel.toGuest());
+                selectedGuestModels.add(createdGuestModel);
+                masterGuests.add(createdGuestModel);
+            });
         });
 
         selectButton.setOnAction(_ -> {

@@ -10,4 +10,12 @@ import java.util.UUID;
  * @param age The age of the {@link Guest} as {@link Integer}.
  */
 public record Guest(UUID uuid, String name, Integer age) implements Serializable {
+    @Override
+    public String toString() {
+        return "Guest{\n" +
+                "uuid=" + uuid +
+                ",\n name='" + name + '\'' +
+                ",\n age=" + age +
+                "\n}";
+    }
 }

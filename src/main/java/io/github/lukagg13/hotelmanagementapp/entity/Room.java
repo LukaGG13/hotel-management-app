@@ -218,13 +218,13 @@ public final class Room implements Serializable {
 
     @Override
     public String toString() {
-        return "Room{" +
+        return "Room{\n" +
                 "numOfBeds=" + numOfBeds +
-                ", sizeInSqrM=" + sizeInSqrM +
-                ", pricePerNight=" + pricePerNight +
-                ", distanceFromCityCenter=" + distanceFromCityCenter +
-                ", distanceFromBeach=" + distanceFromBeach +
-                ", amenities=" + amenities +
-                '}';
+                ",\n sizeInSqrM=" + sizeInSqrM +
+                ",\n pricePerNight=" + pricePerNight +
+                ",\n distanceFromCityCenter=" + distanceFromCityCenter +
+                ",\n distanceFromBeach=" + distanceFromBeach +
+                ",\n amenities=" + amenities +
+                "\n}";
     }
 }

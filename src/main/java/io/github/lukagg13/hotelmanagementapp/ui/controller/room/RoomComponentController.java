@@ -5,19 +5,29 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class RoomComponentController extends VBox {
 
-    @FXML private Label roomNumberLabel;
-    @FXML private Label priceLabel;
-    @FXML private Label bedsLabel;
-    @FXML private Label sizeLabel;
-    @FXML private Label centerDistanceLabel;
+    private static final Logger log = LoggerFactory.getLogger(RoomComponentController.class);
+
+    @FXML
+    private Label roomNumberLabel;
+    @FXML
+    private Label priceLabel;
+    @FXML
+    private Label bedsLabel;
+    @FXML
+    private Label sizeLabel;
+    @FXML
+    private Label centerDistanceLabel;
     @FXML
     private Label beachDistanceLabel;
-    @FXML private Label amenitiesLabel;
+    @FXML
+    private Label amenitiesLabel;
 
     private final RoomModel roomModel;
 
@@ -30,25 +40,19 @@ public class RoomComponentController extends VBox {
 
         try {
             fxmlLoader.load();
+            roomNumberLabel.textProperty().bind(roomModel.roomNumberProperty().map(num -> "Room " + num));
+            priceLabel.textProperty().bind(roomModel.pricePerNightProperty().map(price -> price + "€"));
+            bedsLabel.textProperty().bind(roomModel.numberOfBedsProperty().map(beds -> "Beds: " + beds));
+            sizeLabel.textProperty().bind(roomModel.sizeInSqrMProperty().map(size -> "Size: " + size + " m²"));
+            centerDistanceLabel.textProperty().bind(roomModel.distanceFromCityCenterProperty().map(dist -> "Center: " + dist + " km"));
+            beachDistanceLabel.textProperty().bind(roomModel.distanceFromBeachProperty().map(dist -> "Beach: " + dist + " km"));
+
+            amenitiesLabel.textProperty().bind(roomModel.amenitiesProperty().map(amenityStr ->
+                    amenityStr.isEmpty() ? "Amenities: None" : "Amenities: " + amenityStr.replace(",", ", ")
+            ));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load room-component.fxml", e);
+            log.error("Error loading Room component {}", e.getMessage());
         }
-    }
-
-    @FXML
-    public void initialize() {
-        // Direct architectural string and property bindings to keep data UI synced
-        roomNumberLabel.textProperty().bind(roomModel.roomNumberProperty().map(num -> "Room " + num));
-        priceLabel.textProperty().bind(roomModel.pricePerNightProperty().map(price -> "E" + price + " / night"));
-        bedsLabel.textProperty().bind(roomModel.numberOfBedsProperty().map(beds -> "Beds: " + beds));
-        sizeLabel.textProperty().bind(roomModel.sizeInSqrMProperty().map(size -> "Size: " + size + " m²"));
-        centerDistanceLabel.textProperty().bind(roomModel.distanceFromCityCenterProperty().map(dist -> "Center: " + dist + " km"));
-        beachDistanceLabel.textProperty().bind(roomModel.distanceFromBeachProperty().map(dist -> "Beach: " + dist + " km"));
-
-        // Binds the text layout string that computes directly from your internal EnumMap updates
-        amenitiesLabel.textProperty().bind(roomModel.amenitiesProperty().map(amenityStr ->
-                amenityStr.isEmpty() ? "Amenities: None" : "Amenities: " + amenityStr.replace(",", ", ")
-        ));
     }
 
     public RoomModel getRoomModel() {

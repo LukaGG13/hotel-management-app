@@ -14,4 +14,14 @@ import java.util.UUID;
  * @param checkOutDate A {@link LocalDate} of the checkout.
  */
 public record Booking(UUID uuid, Set<Guest> guests, Room room, LocalDate checkInDate, LocalDate checkOutDate) implements Serializable {
+    @Override
+    public String toString() {
+        return "Booking{\n" +
+                "uuid=" + uuid +
+                ",\n guests=" + guests.toString().replace("\n", "\n\t") +
+                ",\n room=" + room.toString().replace("\n", "\n\t") +
+                ",\n checkInDate=" + checkInDate +
+                ",\n checkOutDate=" + checkOutDate +
+                '}';
+    }
 }
