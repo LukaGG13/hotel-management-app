@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.service;
 
+import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
 import io.github.lukagg13.hotelmanagementapp.exception.IncorrectPasswordException;
 import io.github.lukagg13.hotelmanagementapp.exception.UserNotFoundException;
 import io.github.lukagg13.hotelmanagementapp.file.PasswordUtils;
@@ -12,40 +13,61 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class LoginService {
+/**
+ * A service used to manage login's and active users in the app.
+ */
+public final class LoginService {
     private static final Logger log = LoggerFactory.getLogger(LoginService.class);
-    private final UsersRepository repository;
+    private static final UsersRepository repository = new UsersRepository(DatabaseUtils.createConnection());
     private static User loggedInUser = null;
 
-    public LoginService(UsersRepository usersRepository) {
-        this.repository = usersRepository;
-    }
-    private boolean authentication(User user, String password) {
-        return PasswordUtils.check(user.getUuid(), password);
-    }
+    /**
+     * Private constructor to hide the implicit one.
+     */
+    private LoginService() {}
 
-
-    public void login(String name, String password) throws UserNotFoundException, IncorrectPasswordException {
+    /**
+     * A method used to log in a user in to the app.
+     * @param name The name of the user.
+     * @param password The password of the user.
+     * @throws UserNotFoundException If there is no user with such username.
+     * @throws IncorrectPasswordException If the password hash's don't mach.
+     */
+    public static void login(String name, String password) throws UserNotFoundException, IncorrectPasswordException {
         log.debug("Login attempt in in as: {} with password: {}", name, password);
 
-        //TODO: stavi u db zbog speed il ne igs nije bitno
         var resultList = repository.getAll().stream().filter(user -> user.getUserName().equals(name)).toList();
         if (resultList.isEmpty()) throw new UserNotFoundException("No user found");
-        if (resultList.size() > 1) throw new IllegalStateException("what the hleyyl ovo se nije smelo dogodit"); //TODO enforce unique in db
-        //TODO: prosli gale je smart bio, al validno bi bilo enforcar unique u bazi
 
         var user = resultList.getFirst();
-        if (!authentication(user, password)) throw new IncorrectPasswordException("Password doesn't match");
+
+        if(Boolean.FALSE.equals(PasswordUtils.check(user.getUuid(), password))) throw new IncorrectPasswordException("Password doesn't match");
 
         log.debug("Login in successful login in as user: {}", user);
         loggedInUser = user;
     }
 
+    /**
+     * User to log out the users.
+     */
     public static void logout() {
         loggedInUser = null;
     }
 
+    /**
+     * Returns the option of the {@link User}.
+     * @return A {@link Optional} of the logged in {@link User}.
+     */
     public static Optional<User> getLoggedInUser() {
         return Optional.ofNullable(loggedInUser);
+    }
+
+    /**
+     * Gets the username of the logged in {@link User}.
+     * @return The username of the logged in {@link User} or "Unknown User" as string if no
+     * one is logged in.
+     */
+    public static String getLoggedInUsername() {
+        return  loggedInUser != null ? loggedInUser.getUserName() : "Unknown User";
     }
 }

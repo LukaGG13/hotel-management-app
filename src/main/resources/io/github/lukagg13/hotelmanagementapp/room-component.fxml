@@ -9,7 +9,6 @@
 
 <fx:root type="javafx.scene.layout.VBox"
          spacing="10.0"
-         style="-fx-border-color: #cccccc; -fx-border-radius: 6; -fx-background-radius: 6; -fx-background-color: #ffffff;"
          xmlns="http://javafx.com/javafx/17"
          xmlns:fx="http://javafx.com/fxml/1">
 
@@ -19,8 +18,9 @@
 
     <HBox alignment="CENTER_LEFT">
         <children>
-            <Label fx:id="roomNumberLabel" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #1e293b;" text="Room 101" />
-            <VBox HBox.hgrow="ALWAYS" /> <Label fx:id="priceLabel" style="-fx-font-weight: bold; -fx-font-size: 15px; -fx-text-fill: #0284c7;" text="\$0 / night" />
+            <Label fx:id="roomNumberLabel" text="Room 101" />
+            <VBox HBox.hgrow="ALWAYS" />
+            <Label fx:id="priceLabel" text="price" />
         </children>
     </HBox>
 
@@ -30,19 +30,19 @@
             <ColumnConstraints minWidth="120.0" prefWidth="140.0" />
         </columnConstraints>
         <children>
-            <Label fx:id="bedsLabel" text="Beds: 0" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: #475569;" />
-            <Label fx:id="sizeLabel" text="Size: 0 m²" GridPane.columnIndex="1" GridPane.rowIndex="0" style="-fx-text-fill: #475569;" />
-            <Label fx:id="centerDistanceLabel" text="Center: 0 km" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill: #64748b; -fx-font-size: 12px;" />
-            <Label fx:id="beachDistanceLabel" text="Beach: 0 km" GridPane.columnIndex="1" GridPane.rowIndex="1" style="-fx-text-fill: #64748b; -fx-font-size: 12px;" />
+            <Label fx:id="bedsLabel" text="Beds: 0" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="sizeLabel" text="Size: 0 m²" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label fx:id="centerDistanceLabel" text="Center: 0 km" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="beachDistanceLabel" text="Beach: 0 km" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         </children>
     </GridPane>
 
-    <VBox style="-fx-background-color: #f8fafc; -fx-background-radius: 4; -fx-border-color: #e2e8f0; -fx-border-radius: 4;">
+    <VBox>
         <padding>
             <Insets top="6.0" right="8.0" bottom="6.0" left="8.0" />
         </padding>
         <children>
-            <Label fx:id="amenitiesLabel" style="-fx-font-size: 12px; -fx-text-fill: #475569;" text="Amenities: None" wrapText="true" />
+            <Label fx:id="amenitiesLabel" text="Amenities: None" wrapText="true" />
         </children>
     </VBox>
 

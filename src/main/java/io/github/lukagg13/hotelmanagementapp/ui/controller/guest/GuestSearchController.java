@@ -1,6 +1,7 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.guest;
 
 import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.entity.Guest;
 import io.github.lukagg13.hotelmanagementapp.service.GuestService;
 import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;
 import io.github.lukagg13.hotelmanagementapp.ui.model.GuestModel;
@@ -17,6 +18,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller used for searching and selecting {@link Guest}'s.
+ */
 public class GuestSearchController {
     @FXML
     private TextField searchField;
@@ -34,10 +38,25 @@ public class GuestSearchController {
     private final GuestService guestService;
     private boolean selectButtonClicked = false;
 
+    /**
+     * Returns a new instance of the {@link GuestSearchController}.
+     * @param guestService The {@link GuestService} that will be used to access the {@link Guest}'s.
+     */
     public GuestSearchController(GuestService guestService) {
         this.guestService = guestService;
     }
 
+    /**
+     * Returns a {@link List} of selected {@link GuestModel}'s.
+     * @return The {@link List} of selected {@link GuestModel}'s.
+     */
+    public List<GuestModel> getSelectedGuestModels() {
+        return selectButtonClicked ? this.selectedGuestModels : new ArrayList<>();
+    }
+
+    /**
+     * Method used to initialize state for javaFX.
+     */
     @FXML
     public void initialize() {
         guestService.getAll().forEach(g -> masterGuests.add(new GuestModel(g)));
@@ -74,6 +93,9 @@ public class GuestSearchController {
         });
     }
 
+    /**
+     * Method to refresh the guestVBox.
+     */
     private void refreshDisplay() {
         guestsVBox.getChildren().clear();
         for (var guestModel : filteredGuests) {
@@ -88,18 +110,30 @@ public class GuestSearchController {
         }
     }
 
+    /**
+     * Sets the apply CSS for a {@link GuestComponentController}.
+     * @param guestComponentController The {@link GuestComponentController} that the CSS will be applied to.
+     */
     private void applySelectedStyle(GuestComponentController guestComponentController) {
         guestComponentController.setStyle("-fx-border-color: #0284c7; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: #e0f2fe;");
         guestComponentController.applyCss();
         guestComponentController.layout();
     }
 
-    private void resetStyle(GuestComponentController guestComponentController) {
+    /**
+     * Resets the apply CSS for a {@link GuestComponentController}.
+     * @param guestComponentController The {@link GuestComponentController} that the CSS will be reset to.
+     */private void resetStyle(GuestComponentController guestComponentController) {
         guestComponentController.setStyle("-fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: transparent;");
         guestComponentController.applyCss();
         guestComponentController.layout();
     }
 
+    /**
+     * Returns a {@link GuestComponentController} will the right style and mouse events.
+     * @param guestModel The {@link GuestModel} from which a {@link GuestComponentController} will be created.
+     * @return The new {@link GuestComponentController}.
+     */
     private GuestComponentController getGuestComponentController(GuestModel guestModel) {
         var guestComponentController = new GuestComponentController(guestModel);
         guestComponentController.setOnMouseClicked(_ -> {
@@ -112,9 +146,5 @@ public class GuestSearchController {
             }
         });
         return guestComponentController;
-    }
-
-    public List<GuestModel> getSelectedGuestModels() {
-        return selectButtonClicked ? this.selectedGuestModels : new ArrayList<>();
     }
 }

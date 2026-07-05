@@ -5,26 +5,37 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.Button?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      spacing="10">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+    <padding>
+        <Insets left="10.0" right="10.0" />
+    </padding>
 
-    <fx:include source="header-view.fxml"/>
+    <fx:include source="header-view.fxml" />
+    <HBox alignment="CENTER_LEFT" prefHeight="35.0" spacing="10.0">
+        <children>
+            <TextField fx:id="searchTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="Search..." HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="editRoomButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Edit" />
+            <Button fx:id="deleteRoomButton" mnemonicParsing="false" prefHeight="35.0" prefWidth="80.0" text="Delete" />
+        </children>
+    </HBox>
     <TableView fx:id="table">
         <columns>
-            <TableColumn fx:id="id" text="ID" />
+            <TableColumn fx:id="roomNumber" text="Room number" />
             <TableColumn fx:id="numOfBeds" text="Beds" />
             <TableColumn fx:id="sizeInSqrM" text="Size m^2" />
             <TableColumn fx:id="pricePerNight" text="Price per night" />
             <TableColumn fx:id="distanceFromCityCenter" text="Distance city km" />
             <TableColumn fx:id="distanceFromBeach" text="Distance beach km" />
-            <TableColumn fx:id="roomNumber" text="Room number" />
             <TableColumn fx:id="amenities" text="Amenities" />
             <TableColumn fx:id="editAndDelete" text="Actions" />
         </columns>
     </TableView>
 
-    <Button fx:id="addRoomButton" text="Add Room" />
+    <Button fx:id="addRoomButton" prefHeight="35" text="Add Room" />
 
 </VBox>
 

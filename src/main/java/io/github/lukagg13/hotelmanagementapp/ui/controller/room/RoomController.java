@@ -6,21 +6,22 @@ import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;
 import io.github.lukagg13.hotelmanagementapp.ui.model.RoomModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller used for the room view.
+ */
 public class RoomController {
 
     @FXML
     private TableView<RoomModel> table;
-    @FXML
-    private TableColumn<RoomModel, String> id;
     @FXML
     private TableColumn<RoomModel, Integer> numOfBeds;
     @FXML
@@ -36,38 +37,65 @@ public class RoomController {
     @FXML
     private TableColumn<RoomModel, String> amenities;
     @FXML
-    private TableColumn<RoomModel, Object> editAndDelete;
-    @FXML Button addRoomButton;
+    private Button addRoomButton;
+    @FXML
+    private Button editRoomButton;
+    @FXML
+    private Button deleteRoomButton;
+    @FXML
+    private TextField searchTextField;
 
     private final ObservableList<RoomModel> data = FXCollections.observableArrayList();
     private final RoomService roomService;
 
     private static final Logger log = LoggerFactory.getLogger(RoomController.class);
 
+    /**
+     * Returns a new instance of the {@link RoomController}. *
+     * @param roomService The {@link RoomService} used for accessing rooms.
+     */
     public RoomController(RoomService roomService) {
         log.debug("Creating room controller");
         this.roomService = roomService;
     }
 
+
+    /**
+     * Method used to initialize state for javaFX.
+     */
     @FXML
     public void initialize() {
-        id.setCellValueFactory(f -> f.getValue().idProperty());
         numOfBeds.setCellValueFactory(f -> f.getValue().numberOfBedsProperty());
         sizeInSqrM.setCellValueFactory(f -> f.getValue().sizeInSqrMProperty());
-        pricePerNight.setCellValueFactory(f -> f.getValue().pricePerNightProperty());
+        pricePerNight.setCellValueFactory(f -> f.getValue().pricePerNightProperty().map(s -> s + "€"));
         distanceFromCityCenter.setCellValueFactory(f -> f.getValue().distanceFromCityCenterProperty());
         distanceFromBeach.setCellValueFactory(f -> f.getValue().distanceFromBeachProperty());
         roomNumber.setCellValueFactory(f -> f.getValue().roomNumberProperty());
         amenities.setCellValueFactory(f -> f.getValue().amenitiesProperty());
 
-        editAndDelete.setCellFactory(getEditAndDeleteColumn().getCellFactory());
 
         data.setAll(getListOfRoomModels());
-        table.setItems(data);
+
+        final var filteredList = new FilteredList<>(data, _ -> true);
+        table.setItems(filteredList);
+
+        searchTextField.textProperty().addListener((_, _, query) ->
+                filteredList.setPredicate(roomModel -> query.isBlank() || roomModel.toRoom().toString().toLowerCase().contains(query.toLowerCase()))
+        );
 
         addRoomButton.setOnAction(_ -> {
             openRoomModal(null);
             data.setAll(getListOfRoomModels());
+        });
+
+        editRoomButton.setOnAction(_ -> openRoomModal(table.getSelectionModel().getSelectedItem()));
+
+        deleteRoomButton.setOnAction(_ -> {
+            var model = table.getSelectionModel().getSelectedItem();
+            if (model != null) {
+                roomService.deleteWithUUID(model.toRoom().getId());
+                data.remove(model);
+            }
         });
     }
 
@@ -77,34 +105,6 @@ public class RoomController {
             modelList.add(new RoomModel(room));
         }
         return modelList;
-    }
-
-    private TableColumn<RoomModel, Object> getEditAndDeleteColumn() {
-        TableColumn<RoomModel, Object> actionCol = new TableColumn<>("Actions");
-        actionCol.setCellFactory(param -> new TableCell<RoomModel, Object>() {
-            private final Button editBtn = new Button("Edit");
-            private final Button deleteBtn = new Button("Delete");
-            private final HBox pane = new HBox(5, editBtn, deleteBtn);
-
-            //TODO: znat objasnit ovo ?
-            {
-                editBtn.setOnAction(e -> openRoomModal(getTableRow().getItem()));
-                deleteBtn.setOnAction(e -> {
-                    RoomModel model = getTableRow().getItem();
-                    if (model != null) {
-                        roomService.deleteWithUUID(model.toRoom().getId());
-                        data.remove(model);
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(Object item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty || getTableRow() == null || getTableRow().getItem() == null ? null : pane);
-            }
-        });
-        return actionCol;
     }
 
     private void openRoomModal(RoomModel room) {
@@ -120,4 +120,3 @@ public class RoomController {
                 .showAndWait();
     }
 }
-

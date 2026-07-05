@@ -219,7 +219,8 @@ public final class Room implements Serializable {
     @Override
     public String toString() {
         return "Room{\n" +
-                "numOfBeds=" + numOfBeds +
+                "roomNumber=" + roomNumber +
+                ",\n numOfBeds=" + numOfBeds +
                 ",\n sizeInSqrM=" + sizeInSqrM +
                 ",\n pricePerNight=" + pricePerNight +
                 ",\n distanceFromCityCenter=" + distanceFromCityCenter +

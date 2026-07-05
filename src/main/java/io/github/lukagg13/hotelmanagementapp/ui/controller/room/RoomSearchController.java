@@ -3,8 +3,8 @@ package io.github.lukagg13.hotelmanagementapp.ui.controller.room;
 import io.github.lukagg13.hotelmanagementapp.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.service.RoomService;
 import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.room.RoomComponentController;
 import io.github.lukagg13.hotelmanagementapp.ui.model.RoomModel;
+import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -27,7 +27,6 @@ public class RoomSearchController {
     private final ObservableList<RoomModel> masterRooms = FXCollections.observableArrayList();
     private FilteredList<RoomModel> filteredRooms;
 
-    // Track exactly one selected room instead of a list
     private RoomModel selectedRoomModel = null;
 
     private static final Logger log = LoggerFactory.getLogger(RoomSearchController.class);
@@ -43,12 +42,13 @@ public class RoomSearchController {
         roomService.getAll().forEach(r -> masterRooms.add(new RoomModel(r)));
         filteredRooms = new FilteredList<>(masterRooms, _ -> true);
 
-        searchField.textProperty().addListener((_, _, query) -> {
+        searchField.textProperty().addListener((_, _, query) ->
             filteredRooms.setPredicate(rm -> query == null || query.isBlank() ||
-                    rm.getRoomNumber().contains(query.trim()));
-        });
+                    rm.getRoomNumber().contains(query.trim())
+            )
+        );
 
-        filteredRooms.addListener((javafx.collections.ListChangeListener.Change<? extends RoomModel> _) -> refreshDisplay());
+        filteredRooms.addListener((InvalidationListener) _ -> refreshDisplay());
         refreshDisplay();
 
         createButton.setOnAction(_ -> {

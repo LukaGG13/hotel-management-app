@@ -17,19 +17,18 @@ public class PasswordUtils {
 
     private PasswordUtils() {}
 
-    //TODO: finish
-    public static Boolean check(UUID userId, String password) {
+    public static boolean check(UUID userId, String password) {
 
         log.debug("Checking password for UUID:{}", userId);
         var filePath = Path.of(userId.toString());
         if (!Files.exists(filePath)) return false;
         try(var fileReader = new FileReader(filePath.toFile())) {
-            // TODO move to create account screen String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
             var hashed = fileReader.readAllAsString();
             log.debug("Returning {}", BCrypt.checkpw(password, hashed));
             return BCrypt.checkpw(password, hashed);
         } catch(IOException _) {
-            throw new RuntimeException("Something when wrong");
+            log.error("Can't read file {}", filePath);
+            return false;
         }
     }
 
@@ -37,11 +36,10 @@ public class PasswordUtils {
         log.debug("Saving password for UUID:{}", userId);
         var filePath = Path.of(userId.toString());
         try(var fileWriter = new FileWriter(filePath.toFile())) {
-            // TODO move to create account screen String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
             String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
             fileWriter.write(hashed);
-        } catch (IOException e) {
-            throw new RuntimeException("Cant write to file");
+        } catch (IOException _) {
+            log.error("Can't read file {}", filePath);
         }
     }
 }

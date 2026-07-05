@@ -1,12 +1,10 @@
 package io.github.lukagg13.hotelmanagementapp;
 
 import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
-import io.github.lukagg13.hotelmanagementapp.exception.DatabaseException;
 import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
 import io.github.lukagg13.hotelmanagementapp.repository.BookingRepository;
 import io.github.lukagg13.hotelmanagementapp.repository.GuestRepository;
 import io.github.lukagg13.hotelmanagementapp.repository.RoomRepository;
-import io.github.lukagg13.hotelmanagementapp.repository.UsersRepository;
 import io.github.lukagg13.hotelmanagementapp.service.BookingService;
 import io.github.lukagg13.hotelmanagementapp.service.GuestService;
 import io.github.lukagg13.hotelmanagementapp.service.LoginService;
@@ -16,7 +14,6 @@ import io.github.lukagg13.hotelmanagementapp.ui.controller.booking.BookingContro
 import io.github.lukagg13.hotelmanagementapp.ui.controller.guest.GuestController;
 import io.github.lukagg13.hotelmanagementapp.ui.controller.history.HistoryController;
 import io.github.lukagg13.hotelmanagementapp.ui.controller.room.RoomController;
-import io.github.lukagg13.hotelmanagementapp.ui.controller.room.RoomCreateController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,17 +22,13 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.text.View;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
 
 public class ViewManager {
     private static final Logger log = LoggerFactory.getLogger(ViewManager.class);
     private static Stage stage;
     private static Scene scene;
-
-    //private static final GuestService guestService = new GuestService(new GuestRepository(DatabaseUtils.createConnection()));
 
     public enum ViewPath {
         LOGIN(ViewPath.class.getResource("/io/github/lukagg13/hotelmanagementapp/login-view.fxml")),
@@ -90,7 +83,7 @@ public class ViewManager {
     public static void switchView(ViewPath viewPath) {
         if(LoginService.getLoggedInUser().isEmpty() && !viewPath.equals(ViewPath.LOGIN)) throw new NotLoggedInException("User is not logged in");
         var controller = switch (viewPath) {
-            case LOGIN -> new LoginController(new LoginService(new UsersRepository(DatabaseUtils.createConnection())));
+            case LOGIN -> new LoginController();
             case GUEST -> new GuestController(new GuestService(new GuestRepository(DatabaseUtils.createConnection())));
             case ROOM ->  new RoomController(new RoomService(new RoomRepository(DatabaseUtils.createConnection())));
             case BOOKING -> new BookingController(new BookingService(new BookingRepository(DatabaseUtils.createConnection())));

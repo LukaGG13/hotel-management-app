@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.room;
 
+import io.github.lukagg13.hotelmanagementapp.entity.Room;
 import io.github.lukagg13.hotelmanagementapp.ui.model.RoomModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * A controller used for displaying a custom {@link Room} component.
+ */
 public class RoomComponentController extends VBox {
 
     private static final Logger log = LoggerFactory.getLogger(RoomComponentController.class);
@@ -31,6 +35,10 @@ public class RoomComponentController extends VBox {
 
     private final RoomModel roomModel;
 
+    /**
+     * Returns a new {@link RoomComponentController}.
+     * @param roomModel The {@link RoomModel} from which the component will be created.
+     */
     public RoomComponentController(RoomModel roomModel) {
         this.roomModel = roomModel;
 
@@ -55,6 +63,10 @@ public class RoomComponentController extends VBox {
         }
     }
 
+    /**
+     * Returns the {@link RoomModel} passed to the constructor.
+     * @return {@link RoomModel} Passed to the constructor.
+     */
     public RoomModel getRoomModel() {
         return roomModel;
     }

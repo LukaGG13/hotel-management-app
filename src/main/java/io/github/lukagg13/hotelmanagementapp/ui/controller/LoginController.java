@@ -23,19 +23,13 @@ public class LoginController {
         @FXML
         private Button loginButton;
 
-        private final LoginService loginService;
-
-        public LoginController(LoginService loginService) {
-            this.loginService = loginService;
-        }
-
         private void loginButtonClicked() {
             var name = userNameTextField.getText();
             var password = passwordTextField.getText();
             if (name.isBlank() || password.isBlank()) throw new IllegalStateException("Text fields empty");
 
             try {
-                loginService.login(name, password);
+                LoginService.login(name, password);
                 userNameTextField.setText("");
                 passwordTextField.setText("");
 
@@ -52,8 +46,5 @@ public class LoginController {
         @FXML
         private void initialize() {
             loginButton.setOnAction(_ -> loginButtonClicked());
-
-            //TODO: passwordTextField = validating text field
-            //TODO: link na create account isto dodat stvar za password
         }
 }

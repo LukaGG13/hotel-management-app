@@ -84,6 +84,7 @@ public class GuestController {
                     .build()
                     .showAndWait();
 
+            //TODO: fix da refetca iz servisa
             updatedGuestModel.ifPresent(guestModel ->
                guestService.update(guestModel.toGuest())
             );

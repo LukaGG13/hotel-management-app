@@ -5,16 +5,14 @@ import javafx.beans.Observable;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import javafx.collections.ObservableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.EnumMap;
-import java.util.Map;
 import java.util.UUID;
 
-public final class RoomModel {
+public class RoomModel {
     private static final Logger log = LoggerFactory.getLogger(RoomModel.class);
 
     private final ObjectProperty<Integer> numberOfBeds;
@@ -24,18 +22,7 @@ public final class RoomModel {
     private final SimpleStringProperty distanceFromBeach;
     private final SimpleStringProperty roomNumber;
 
-    /*
-    private final SimpleBooleanProperty gym;
-    private final SimpleBooleanProperty wifi;
-    private final SimpleBooleanProperty pool;
-    private final SimpleBooleanProperty parking;
-    private final SimpleBooleanProperty spa;
-    private final SimpleBooleanProperty breakfast;
-     */
-
     private UUID uuid;
-    //private SimpleStringProperty amenities;
-    //private Map<Room.Amenity, SimpleBooleanProperty> amenitiesMap = new EnumMap<>(Room.Amenity.class);
     private ObservableMap<Room.Amenity, SimpleBooleanProperty> amenitiesMap;
     private SimpleStringProperty amenities;
     private final SimpleStringProperty id;
@@ -64,22 +51,13 @@ public final class RoomModel {
         amenities = new SimpleStringProperty();
         for (var amenity: Room.Amenity.values()) {
             var simpleBooleanProperty = new SimpleBooleanProperty(room.getAmenities().contains(amenity));
-            simpleBooleanProperty.addListener((Observable o) -> {
+            simpleBooleanProperty.addListener((Observable _) -> {
                 String amenitiesString = amenityMapToString(amenitiesMap);
-                log.debug("Amenities changed, new value: {}", amenitiesString);
                 amenities.setValue(amenitiesString);
             });
             amenitiesMap.put(amenity, simpleBooleanProperty); //TODO: drugki konstrkutor i amenteies fix
         }
         amenities.setValue(amenityMapToString(amenitiesMap));
-
-        /*
-        amenitiesMap.addListener((Observable o) -> {
-            String amenitiesString =
-            log.debug("Amenities changed, new value: {}", amenitiesString);
-            amenities.setValue(amenitiesString);
-        });
-        */
     }
 
     public RoomModel() {

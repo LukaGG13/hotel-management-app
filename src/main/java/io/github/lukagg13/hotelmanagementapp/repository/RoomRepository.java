@@ -30,14 +30,13 @@ public final class RoomRepository implements Repository<Room> {
              var resultSet = prepareStatement.executeQuery()) {
             while (resultSet.next()) {
                 var room = resultSetToRoom(resultSet);
-                // load amenities separately
                 var amenities = getAmenitiesForRoom(room.getId());
                 var builder = new Room.RoomBuilder(room.getId(), room.getNumOfBeds(), room.getPricePerNight())
                         .sizeInSqrM(room.getSizeInSqrM())
                         .distanceFromCityCenter(room.getDistanceFromCityCenter())
                         .distanceFromBeach(room.getDistanceFromBeach())
                         .roomNumber(room.getRoomNumber());
-                for (var a : amenities) builder.addAmenity(a);
+                for (var amenity : amenities) builder.addAmenity(amenity);
                 roomList.add(builder.build());
             }
         } catch(SQLException e) {
@@ -62,7 +61,7 @@ public final class RoomRepository implements Repository<Room> {
                             .distanceFromCityCenter(room.getDistanceFromCityCenter())
                             .distanceFromBeach(room.getDistanceFromBeach())
                             .roomNumber(room.getRoomNumber());
-                    for (var a : amenities) builder.addAmenity(a);
+                    for (var amenity : amenities) builder.addAmenity(amenity);
                     return Optional.of(builder.build());
                 }
            }
@@ -99,10 +98,9 @@ public final class RoomRepository implements Repository<Room> {
             prepareStatement.setString(7, elem.getId().toString());
 
             var updated = prepareStatement.executeUpdate() == 1;
-            // update amenities
-            try (var deletePs = connection.prepareStatement("DELETE FROM room_amenities WHERE room_id = ?")) {
-                deletePs.setString(1, elem.getId().toString());
-                deletePs.executeUpdate();
+            try (var deletePrepareStatement = connection.prepareStatement("DELETE FROM room_amenities WHERE room_id = ?")) {
+                deletePrepareStatement.setString(1, elem.getId().toString());
+                deletePrepareStatement.executeUpdate();
             }
             insertAmenitiesForRoom(elem);
 
@@ -114,6 +112,7 @@ public final class RoomRepository implements Repository<Room> {
 
     @Override
     public boolean create(Room elem) {
+        log.info("Creating room: {}", elem);
         final String query = "INSERT INTO rooms (id, num_of_beds, size_in_sqr_m, price_per_night, distance_from_city_center, distance_from_beach, room_number) VALUES (?, ?, ?, ?, ?, ?, ?);";
         try (var prepareStatement = connection.prepareStatement(query)) {
             prepareStatement.setString(1, elem.getId().toString());
@@ -125,7 +124,6 @@ public final class RoomRepository implements Repository<Room> {
             prepareStatement.setInt(7, elem.getRoomNumber());
 
             var created = prepareStatement.executeUpdate() == 1;
-            // insert amenities relations
             insertAmenitiesForRoom(elem);
             return created;
         } catch(SQLException e) {
@@ -140,32 +138,32 @@ public final class RoomRepository implements Repository<Room> {
         final var selectAmenityId = "SELECT id FROM amenities WHERE name = ?";
         final var insertRoomAmenity = "INSERT INTO room_amenities (room_id, amenity_id) VALUES (?, ?)";
 
-        try (var selectPs = connection.prepareStatement(selectAmenityId);
-             var insertPs = connection.prepareStatement(insertRoomAmenity)) {
+        try (var selectPrepareStatement = connection.prepareStatement(selectAmenityId);
+             var insertPrepareStatement = connection.prepareStatement(insertRoomAmenity)) {
             for (var a : amenities) {
-                selectPs.setString(1, a.name());
-                try (var rs = selectPs.executeQuery()) {
+                selectPrepareStatement.setString(1, a.name());
+                try (var rs = selectPrepareStatement.executeQuery()) {
                     if (rs.next()) {
                         var amenityId = rs.getInt("id");
-                        insertPs.setString(1, elem.getId().toString());
-                        insertPs.setInt(2, amenityId);
-                        insertPs.addBatch();
+                        insertPrepareStatement.setString(1, elem.getId().toString());
+                        insertPrepareStatement.setInt(2, amenityId);
+                        insertPrepareStatement.addBatch();
                     }
                 }
             }
-            insertPs.executeBatch();
+            insertPrepareStatement.executeBatch();
         }
     }
 
     private Set<Room.Amenity> getAmenitiesForRoom(UUID roomId) throws SQLException {
-        final var q = "SELECT a.name FROM amenities a JOIN room_amenities ra ON a.id = ra.amenity_id WHERE ra.room_id = ?";
-        try (var ps = connection.prepareStatement(q)) {
-            ps.setString(1, roomId.toString());
-            try (var rs = ps.executeQuery()) {
+        final var query = "SELECT a.name FROM amenities a JOIN room_amenities ra ON a.id = ra.amenity_id WHERE ra.room_id = ?";
+        try (var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, roomId.toString());
+            try (var resultSet = preparedStatement.executeQuery()) {
                 var set = EnumSet.noneOf(Room.Amenity.class);
-                while (rs.next()) {
-                    var name = rs.getString("name");
-                    try { set.add(Room.Amenity.valueOf(name)); } catch (IllegalArgumentException ignored) { }
+                while (resultSet.next()) {
+                    var name = resultSet.getString("name");
+                    set.add(Room.Amenity.valueOf(name));
                 }
                 return set;
             }

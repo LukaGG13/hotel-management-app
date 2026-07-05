@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.guest;
 
+import io.github.lukagg13.hotelmanagementapp.entity.Guest;
 import io.github.lukagg13.hotelmanagementapp.ui.model.GuestModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * A controller used for displaying a custom guest component.
+ * A controller used for displaying a custom {@link Guest} component.
  */
 public class GuestComponentController extends VBox {
 

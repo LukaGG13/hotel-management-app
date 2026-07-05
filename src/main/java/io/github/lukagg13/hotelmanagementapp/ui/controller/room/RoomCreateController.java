@@ -3,8 +3,6 @@ package io.github.lukagg13.hotelmanagementapp.ui.controller.room;
 import io.github.lukagg13.hotelmanagementapp.entity.Room;
 import io.github.lukagg13.hotelmanagementapp.ui.component.ValidatingTextField;
 import io.github.lukagg13.hotelmanagementapp.ui.model.RoomModel;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -14,15 +12,14 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public final class RoomCreateController {
 
+    private static final String POSITIVE_INTEGER_REGEX = "^[1-9]\\d*$";
+    private static final String POSITIVE_DECIMAL_REGEX = "^[1-9]\\d*(\\.\\d+)?$|^0\\.\\d*[1-9]\\d*$";
     private static final Logger log = LoggerFactory.getLogger(RoomCreateController.class);
 
     @FXML
@@ -57,9 +54,6 @@ public final class RoomCreateController {
     private final RoomModel roomModel;
     private final Consumer<Room> action;
 
-    private Map<CheckBox, SimpleBooleanProperty> checkBoxMap;
-    private Map<ValidatingTextField, SimpleStringProperty> validatingTextFieldsMap;
-
     public RoomCreateController(RoomModel roomModel, Consumer<Room> action, String buttonText) {
         this.roomModel = roomModel;
         this.action = action;
@@ -69,24 +63,7 @@ public final class RoomCreateController {
 
     @FXML
     private void initialize() {
-        /*
-        this.validatingTextFieldsMap = new HashMap<>(Map.of(
-                roomModel.pricePerNightProperty(), pricePerNightValidatingTextField,
-                roomModel.sizeInSqrMProperty(), sizeOfRoomValidatingTextField,
-                roomModel.distanceFromCityCenterProperty(), distanceFromCityValidatingTextField,
-                roomModel.distanceFromBeachProperty(), distanceFromBeachValidatingTextField,
-                roomModel.roomNumberProperty(), roomNumberValidatingTextField
-        ));
-        this.checkBoxMap = new HashMap<>(Map.of(
-                roomModel.getBoolPropertyForAmenity(Room.Amenity.GYM), gymCheckBox,
-                roomModel.getBoolPropertyForAmenity(Room.Amenity.WIFI), wifiCheckBox,
-                roomModel.getBoolPropertyForAmenity(Room.Amenity.POOL), poolCheckBox,
-                roomModel.getBoolPropertyForAmenity(Room.Amenity.PARKING), parkingCheckBox,
-                roomModel.getBoolPropertyForAmenity(Room.Amenity.SPA), spaCheckBox,
-                roomModel.getBoolPropertyForAmenity(Room.Amenity.BREAKFAST), breakfastCheckBox
-        ));
-         */
-        this.validatingTextFieldsMap = new HashMap<>(Map.of(
+        final var validatingTextFieldsMap = new HashMap<>(Map.of(
                 pricePerNightValidatingTextField, roomModel.pricePerNightProperty(),
                 sizeOfRoomValidatingTextField, roomModel.sizeInSqrMProperty(),
                 distanceFromCityValidatingTextField, roomModel.distanceFromCityCenterProperty(),
@@ -94,7 +71,7 @@ public final class RoomCreateController {
                 roomNumberValidatingTextField, roomModel.roomNumberProperty()
         ));
 
-        this.checkBoxMap = new HashMap<>(Map.of(
+        final var checkBoxMap = new HashMap<>(Map.of(
                 gymCheckBox, roomModel.getBoolPropertyForAmenity(Room.Amenity.GYM),
                 wifiCheckBox, roomModel.getBoolPropertyForAmenity(Room.Amenity.WIFI),
                 poolCheckBox, roomModel.getBoolPropertyForAmenity(Room.Amenity.POOL),
@@ -107,38 +84,25 @@ public final class RoomCreateController {
         spinnerValueFactory.setValue(1);
         numberOfBedsSpinner.setValueFactory(spinnerValueFactory);
 
-        pricePerNightValidatingTextField.setValidation(string -> {
-            try {
-                new BigDecimal(string);
-                return true;
-            } catch (Exception e) {
-                return false;
-            }
-        });
+        pricePerNightValidatingTextField.setValidation(string ->
+            string != null && string.matches(POSITIVE_DECIMAL_REGEX)
+        );
 
-        sizeOfRoomValidatingTextField.setValidation(string -> {
-            try { Integer.parseInt(string); return true; } catch (Exception e) { return false; }
-        });
+        sizeOfRoomValidatingTextField.setValidation(string ->
+                string != null && string.matches(POSITIVE_INTEGER_REGEX)
+        );
 
-        distanceFromCityValidatingTextField.setValidation(string -> {
-            try { new BigDecimal(string); return true; } catch (Exception e) { return false; }
-        });
+        distanceFromCityValidatingTextField.setValidation(string ->
+                string != null && string.matches(POSITIVE_DECIMAL_REGEX)
+        );
 
-        distanceFromBeachValidatingTextField.setValidation(string -> {
-            try { new BigDecimal(string); return true; } catch (Exception e) { return false; }
-        });
+        distanceFromBeachValidatingTextField.setValidation(string ->
+                string != null && string.matches(POSITIVE_DECIMAL_REGEX)
+        );
 
-        roomNumberValidatingTextField.setValidation(string -> {
-            try { Integer.parseInt(string); return true; } catch (Exception e) { return false; }
-        });
-
-        /*
-        pricePerNightValidatingTextField.textProperty().bindBidirectional(roomModel.pricePerNightProperty());
-        sizeOfRoomValidatingTextField.textProperty().bindBidirectional(roomModel.sizeInSqrMProperty());
-        distanceFromCityValidatingTextField.textProperty().bindBidirectional(roomModel.distanceFromCityCenterProperty());
-        distanceFromBeachValidatingTextField.textProperty().bindBidirectional(roomModel.distanceFromBeachProperty());
-        roomNumberValidatingTextField.textProperty().bindBidirectional(roomModel.roomNumberProperty());
-        */
+        roomNumberValidatingTextField.setValidation(string ->
+                string != null && string.matches(POSITIVE_INTEGER_REGEX)
+        );
 
         numberOfBedsSpinner.getValueFactory().valueProperty().bindBidirectional(roomModel.numberOfBedsProperty());
 

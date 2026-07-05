@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UsersRepository implements Repository<User>  {
+public final class UsersRepository implements Repository<User>  {
 
     final Connection connection;
     static final Logger log = LoggerFactory.getLogger(UsersRepository.class);
