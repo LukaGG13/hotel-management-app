@@ -5,7 +5,7 @@ module io.github.lukagg13.hotelmanagementapp {
     requires java.sql;
     requires jbcrypt;
     requires java.desktop;
-    requires jakarta.json.bind;
+    requires io.github.lukagg13.hotelmanagementapp;
 
 
     opens io.github.lukagg13.hotelmanagementapp to javafx.fxml;
@@ -17,4 +17,6 @@ module io.github.lukagg13.hotelmanagementapp {
     opens io.github.lukagg13.hotelmanagementapp.ui.controller.booking to javafx.fxml;
     exports io.github.lukagg13.hotelmanagementapp;
     opens io.github.lukagg13.hotelmanagementapp.ui.controller.history to javafx.fxml;
+    exports io.github.lukagg13.hotelmanagementapp.ui;
+    opens io.github.lukagg13.hotelmanagementapp.ui to javafx.fxml;
 }

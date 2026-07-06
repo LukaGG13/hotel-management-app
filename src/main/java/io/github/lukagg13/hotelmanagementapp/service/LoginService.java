@@ -2,7 +2,7 @@ package io.github.lukagg13.hotelmanagementapp.service;
 
 import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
 import io.github.lukagg13.hotelmanagementapp.exception.IncorrectPasswordException;
-import io.github.lukagg13.hotelmanagementapp.exception.UserNotFoundException;
+import io.github.lukagg13.hotelmanagementapp.exception.IncorrectUsernameException;
 import io.github.lukagg13.hotelmanagementapp.file.PasswordUtils;
 import io.github.lukagg13.hotelmanagementapp.repository.UsersRepository;
 import io.github.lukagg13.hotelmanagementapp.entity.User;
@@ -30,14 +30,14 @@ public final class LoginService {
      * A method used to log in a user in to the app.
      * @param name The name of the user.
      * @param password The password of the user.
-     * @throws UserNotFoundException If there is no user with such username.
+     * @throws IncorrectUsernameException If there is no user with such username.
      * @throws IncorrectPasswordException If the password hash's don't mach.
      */
-    public static void login(String name, String password) throws UserNotFoundException, IncorrectPasswordException {
+    public static void login(String name, String password) throws IncorrectUsernameException, IncorrectPasswordException {
         log.debug("Login attempt in in as: {} with password: {}", name, password);
 
         var resultList = repository.getAll().stream().filter(user -> user.getUserName().equals(name)).toList();
-        if (resultList.isEmpty()) throw new UserNotFoundException("No user found");
+        if (resultList.isEmpty()) throw new IncorrectUsernameException("No user found");
 
         var user = resultList.getFirst();
 

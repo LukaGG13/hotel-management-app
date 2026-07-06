@@ -1,4 +1,4 @@
-package io.github.lukagg13.hotelmanagementapp;
+package io.github.lukagg13.hotelmanagementapp.ui;
 
 import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
 import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
@@ -24,12 +24,20 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 
+/**
+ * A class to manage view switching in the app.
+ */
 public class ViewManager {
     private static final Logger log = LoggerFactory.getLogger(ViewManager.class);
     private static Stage stage;
     private static Scene scene;
+    private static final Connection connection = DatabaseUtils.createConnection();
 
+    /**
+     * A enum of all the valid VIEWS in the app.
+     */
     public enum ViewPath {
         LOGIN(ViewPath.class.getResource("/io/github/lukagg13/hotelmanagementapp/login-view.fxml")),
         ROOM(ViewPath.class.getResource("/io/github/lukagg13/hotelmanagementapp/room-view.fxml")),
@@ -50,6 +58,9 @@ public class ViewManager {
         }
     }
 
+    /**
+     * A private constructor to hide the implicit one.
+     */
     private ViewManager(){}
 
     public static void setStage(Stage stage) {
@@ -62,6 +73,11 @@ public class ViewManager {
         stage.show();
     }
 
+    /**
+     * Method to switch the view which is being shown in the app.
+     * @param view The view which to switch to.
+     * @param controller The controller for the view.
+     */
     public static void switchView(URL view, Object controller) {
         if(stage == null) throw new IllegalStateException("No stage. Set the stage first");
 
@@ -74,19 +90,22 @@ public class ViewManager {
             var root = fxmlLoader.load();
             scene.setRoot((Parent) root);
         } catch (IOException e) {
-            e.printStackTrace();
             log.error(e.getMessage());
             log.error("View {} doesn't exist", view);
         }
     }
 
+    /**
+     * Switches the view.
+     * @param viewPath The {@link ViewPath} which will be swaped to.
+     */
     public static void switchView(ViewPath viewPath) {
         if(LoginService.getLoggedInUser().isEmpty() && !viewPath.equals(ViewPath.LOGIN)) throw new NotLoggedInException("User is not logged in");
         var controller = switch (viewPath) {
             case LOGIN -> new LoginController();
-            case GUEST -> new GuestController(new GuestService(new GuestRepository(DatabaseUtils.createConnection())));
-            case ROOM ->  new RoomController(new RoomService(new RoomRepository(DatabaseUtils.createConnection())));
-            case BOOKING -> new BookingController(new BookingService(new BookingRepository(DatabaseUtils.createConnection())));
+            case GUEST -> new GuestController(new GuestService(new GuestRepository(connection)));
+            case ROOM ->  new RoomController(new RoomService(new RoomRepository(connection)));
+            case BOOKING -> new BookingController(new BookingService(new BookingRepository(connection)));
             case HISTORY_VIEW -> new HistoryController();
             case null, default -> null;
         };

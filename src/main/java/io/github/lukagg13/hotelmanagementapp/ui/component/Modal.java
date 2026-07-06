@@ -1,6 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.component;
 
-import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -42,7 +42,7 @@ public class Modal<C, R> {
      */
     public Optional<R> showAndWait() {
         try {
-            FXMLLoader loader = new FXMLLoader(viewPath.path);
+            var loader = new FXMLLoader(viewPath.path);
 
             if (controller != null) {
                 loader.setController(controller);

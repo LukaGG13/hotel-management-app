@@ -36,20 +36,20 @@ public final class RoomCreateController {
     private ValidatingTextField roomNumberValidatingTextField;
 
     @FXML
-    CheckBox gymCheckBox;
+    private CheckBox gymCheckBox;
     @FXML
-    CheckBox wifiCheckBox;
+    private CheckBox wifiCheckBox;
     @FXML
-    CheckBox poolCheckBox;
+    private CheckBox poolCheckBox;
     @FXML
-    CheckBox parkingCheckBox;
+    private CheckBox parkingCheckBox;
     @FXML
-    CheckBox spaCheckBox;
+    private CheckBox spaCheckBox;
     @FXML
-    CheckBox breakfastCheckBox;
+    private CheckBox breakfastCheckBox;
+    @FXML
+    private Button createRoomButton;
 
-    @FXML
-    Button createRoomButton;
     private final String buttonText;
     private final RoomModel roomModel;
     private final Consumer<Room> action;

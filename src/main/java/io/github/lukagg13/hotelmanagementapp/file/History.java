@@ -60,8 +60,7 @@ public final class History {
             log.error("Error reading logs from {}", DATA_FILE_PATH);
         } catch (ClassNotFoundException e) {
             log.error("Error reading logs {}", e.getMessage());
-        }
-         finally {
+        } finally {
             lock.readLock().unlock();
         }
         return new ArrayList<>();

@@ -1,0 +1,16 @@
+module:io.github.lukagg13.hotelmanagementapp
+io.github.lukagg13.hotelmanagementapp
+io.github.lukagg13.hotelmanagementapp.database
+io.github.lukagg13.hotelmanagementapp.entity
+io.github.lukagg13.hotelmanagementapp.exception
+io.github.lukagg13.hotelmanagementapp.file
+io.github.lukagg13.hotelmanagementapp.repository
+io.github.lukagg13.hotelmanagementapp.service
+io.github.lukagg13.hotelmanagementapp.ui
+io.github.lukagg13.hotelmanagementapp.ui.component
+io.github.lukagg13.hotelmanagementapp.ui.controller
+io.github.lukagg13.hotelmanagementapp.ui.controller.booking
+io.github.lukagg13.hotelmanagementapp.ui.controller.guest
+io.github.lukagg13.hotelmanagementapp.ui.controller.history
+io.github.lukagg13.hotelmanagementapp.ui.controller.room
+io.github.lukagg13.hotelmanagementapp.ui.model

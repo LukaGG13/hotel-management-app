@@ -1,6 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.booking;
 
-import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.entity.Booking;
 import io.github.lukagg13.hotelmanagementapp.service.GuestService;
 import io.github.lukagg13.hotelmanagementapp.service.RoomService;
@@ -75,7 +75,7 @@ public class BookingCreateController {
         guestsVBox.getChildren().clear();
         if(guestModels.isEmpty()) guestsVBox.getChildren().add(new Label("No guest selected"));
         guestModels.forEach(guestModel ->
-                guestsVBox.getChildren().add(guestModel  != null ? new GuestComponentController(guestModel) : new Label("Invalid guest"))
+                guestsVBox.getChildren().add(guestModel != null ? new GuestComponentController(guestModel) : new Label("Invalid guest"))
         );
     }
 
@@ -161,20 +161,20 @@ public class BookingCreateController {
      * @return True if inputs are correct false if not.
      */
     private boolean validateBookingInputs() {
-        if (bookingModel.getCheckInDate() == null || bookingModel.getCheckOutDate() == null) {
-            new Alert(Alert.AlertType.WARNING, "Please select check-in and check-out.").showAndWait();
+        if (bookingModel.getBookingCheckInDate() == null || bookingModel.getBookingCheckOutDate() == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select check-in and check out").showAndWait();
             return false;
         }
-        if (!bookingModel.getCheckOutDate().isAfter(bookingModel.getCheckInDate())) {
-            new Alert(Alert.AlertType.WARNING, "Check-out must be after the check-in.").showAndWait();
+        if (!bookingModel.getBookingCheckOutDate().isAfter(bookingModel.getBookingCheckInDate())) {
+            new Alert(Alert.AlertType.WARNING, "Check-out must be after the check in").showAndWait();
             return false;
         }
         if (bookingModel.getRoom() == null) {
-            new Alert(Alert.AlertType.WARNING, "Please select a room.").showAndWait();
+            new Alert(Alert.AlertType.WARNING, "Please select a room").showAndWait();
             return false;
         }
         if (bookingModel.guestListProperty().isEmpty()) {
-            new Alert(Alert.AlertType.WARNING, "Please assign the guests.").showAndWait();
+            new Alert(Alert.AlertType.WARNING, "Please add the guests").showAndWait();
             return false;
         }
         return true;

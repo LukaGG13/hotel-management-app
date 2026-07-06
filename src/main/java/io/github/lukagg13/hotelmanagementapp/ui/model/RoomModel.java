@@ -12,6 +12,9 @@ import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.UUID;
 
+/**
+ * Class used to display the {@link RoomModel}'s in the app.
+ */
 public class RoomModel {
     private static final Logger log = LoggerFactory.getLogger(RoomModel.class);
 
@@ -27,6 +30,11 @@ public class RoomModel {
     private SimpleStringProperty amenities;
     private final SimpleStringProperty id;
 
+    /**
+     * Turns the amenityMap to a string.
+     * @param amenitiesMap The amenity map to be turned in to the string.
+     * @return The result {@link String}.
+     */
     private String amenityMapToString(ObservableMap<Room.Amenity, SimpleBooleanProperty> amenitiesMap) {
         return amenitiesMap.entrySet().stream()
                 .filter(entry -> entry.getValue().get())
@@ -35,6 +43,10 @@ public class RoomModel {
                 .orElse("");
     }
 
+    /**
+     * Creates a new instance of {@link RoomModel} from an existing {@link RoomModel}.
+     * @param room the {@link Room} to copy values from.
+     */
     public RoomModel(Room room) {
         log.debug("Creating room model for room with id:{} beds:{}", room.getId(), room.getNumOfBeds());
 
@@ -60,6 +72,9 @@ public class RoomModel {
         amenities.setValue(amenityMapToString(amenitiesMap));
     }
 
+    /**
+     * Creates a new instance of {@link GuestModel} with default values.
+     */
     public RoomModel() {
         numberOfBeds = new SimpleObjectProperty<>(1);
         pricePerNight = new SimpleStringProperty("0");
@@ -84,9 +99,8 @@ public class RoomModel {
         amenities.setValue(amenityMapToString(amenitiesMap));
 
         amenitiesMap.addListener((Observable o) -> {
-            String amenitiesString = amenitiesMap.entrySet().stream()
-                    .filter(entry -> entry.getValue().get())
-                    .map(entry -> entry.getKey().name())
+            String amenitiesString = amenitiesMap.keySet().stream()
+                    .map(Enum::name)
                     .reduce((a, b) -> a + "," + b)
                     .orElse("");
             log.debug("Amenities changed, new value: {}", amenitiesString);
@@ -96,74 +110,147 @@ public class RoomModel {
         id = new SimpleStringProperty("");
     }
 
+    /**
+     * Returns the number of beds.
+     * @return The number of beds as {@link Integer}.
+     */
     public Integer getNumberOfBeds() {
         return numberOfBeds.get();
     }
 
+    /**
+     * Returns the number of beds property.
+     * @return The property.
+     */
     public ObjectProperty<Integer> numberOfBedsProperty() {
         return numberOfBeds;
     }
 
+    /**
+     * Returns the price per night.
+     * @return Price per night.
+     */
     public String getPricePerNight() {
         return pricePerNight.get();
     }
 
+    /**
+     * The price per night property.
+     * @return the property.
+     */
     public SimpleStringProperty pricePerNightProperty() {
         return pricePerNight;
     }
 
+    /**
+     * Returns the size of the room in square meters.
+     * @return Size in square meters.
+     */
     public String getSizeInSqrM() {
         return sizeInSqrM.get();
     }
 
+    /**
+     * The size in square meters property.
+     * @return The property.
+     */
     public SimpleStringProperty sizeInSqrMProperty() {
         return sizeInSqrM;
     }
 
+    /**
+     * Returns the distance from the city center.
+     * @return Distance from city center.
+     */
     public String getDistanceFromCityCenter() {
         return distanceFromCityCenter.get();
     }
 
+    /**
+     * The distance from the city center property.
+     * @return The property.
+     */
     public SimpleStringProperty distanceFromCityCenterProperty() {
         return distanceFromCityCenter;
     }
 
+    /**
+     * Returns the distance from the beach.
+     * @return Distance from beach.
+     */
     public String getDistanceFromBeach() {
         return distanceFromBeach.get();
     }
 
+    /**
+     * The distance from the beach property.
+     * @return The property.
+     */
     public SimpleStringProperty distanceFromBeachProperty() {
         return distanceFromBeach;
     }
 
+    /**
+     * Returns the room number.
+     * @return The room number.
+     */
     public String getRoomNumber() {
         return roomNumber.get();
     }
 
+    /**
+     * The room number property.
+     * @return The property.
+     */
     public SimpleStringProperty roomNumberProperty() {
         return roomNumber;
     }
 
+    /**
+     * Returns the UUID of the room.
+     * @return The unique ID as a {@link UUID}.
+     */
     public UUID getUuid() {
         return uuid;
     }
 
+    /**
+     * Returns the string representation of the room ID.
+     * @return The ID string.
+     */
     public String getId() {
         return id.get();
     }
 
+    /**
+     * The room ID property.
+     * @return The property.
+     */
     public SimpleStringProperty idProperty() {
         return id;
     }
 
+    /**
+     * Returns the boolean property tracking a specific amenity status.
+     * @param amenity The amenity to check.
+     * @return The property representing if the amenity is selected.
+     */
     public SimpleBooleanProperty getBoolPropertyForAmenity(Room.Amenity amenity) {
         return amenitiesMap.get(amenity);
     }
 
+    /**
+     * The comma-separated amenities string property.
+     * @return The property.
+     */
     public SimpleStringProperty amenitiesProperty() {
         return amenities;
     }
 
+    /**
+     * Converts this presentation model back into a core {@link Room} domain entity.
+     * @return A newly built {@link Room} object.
+     */
     public Room toRoom() {
         if (uuid == null) uuid = UUID.randomUUID();
 

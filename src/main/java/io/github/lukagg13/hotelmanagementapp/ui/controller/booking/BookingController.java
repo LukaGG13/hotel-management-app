@@ -1,6 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.booking;
 
-import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.entity.Booking;
 import io.github.lukagg13.hotelmanagementapp.repository.GuestRepository;
 import io.github.lukagg13.hotelmanagementapp.repository.RoomRepository;
@@ -24,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +35,7 @@ public class BookingController {
     @FXML
     private TableView<BookingModel> bookingTable;
     @FXML
-    private TableColumn<BookingModel, String> roomNumber; // Switched to String/Integer to show the nested data
+    private TableColumn<BookingModel, String> roomNumber;
     @FXML
     private TableColumn<BookingModel, LocalDate> checkIn;
     @FXML
@@ -78,10 +80,10 @@ public class BookingController {
         );
 
         checkIn.setCellValueFactory(cellData ->
-                Bindings.createObjectBinding(() -> cellData.getValue().getCheckInDate())
+                Bindings.createObjectBinding(() -> cellData.getValue().getBookingCheckInDate())
         );
         checkOut.setCellValueFactory(cellData ->
-                Bindings.createObjectBinding(() -> cellData.getValue().getCheckOutDate())
+                Bindings.createObjectBinding(() -> cellData.getValue().getBookingCheckOutDate())
         );
         roomNumber.setCellValueFactory(cellData -> {
             RoomModel room = cellData.getValue().getRoom();
@@ -116,7 +118,7 @@ public class BookingController {
             handleCrateBooking();
         });
 
-        data.addAll(bookingService.getAll().stream().map(BookingModel::new).toList());
+        data.addAll(getListOfBookingModels());
     }
 
     /**
@@ -142,7 +144,7 @@ public class BookingController {
 
         if(result.isPresent()) {
             bookingService.update(result.get().toBooking());
-            data.setAll(bookingService.getAll().stream().map(BookingModel::new).toList());
+            data.setAll(getListOfBookingModels());
         }
     }
 
@@ -164,5 +166,17 @@ public class BookingController {
             bookingService.create(bookingModel.toBooking());
             data.add(bookingModel);
         });
+    }
+
+    /**
+     * Returns a {@link List} off all the {@link BookingModel}'s.
+     * @return The {@link List} off all the {@link BookingModel}'s.
+     */
+    private List<BookingModel> getListOfBookingModels() {
+        var bookingModelList = new ArrayList<BookingModel>();
+        for(var booking : bookingService.getAll()) {
+            bookingModelList.add(new BookingModel(booking));
+        }
+        return bookingModelList;
     }
 }

@@ -1,6 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.guest;
 
-import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.entity.Guest;
 import io.github.lukagg13.hotelmanagementapp.service.GuestService;
 import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;

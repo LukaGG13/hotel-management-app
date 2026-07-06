@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.repository;
 
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,7 +9,7 @@ import java.util.UUID;
  * An interface for repositories.
  * @param <E> The type of the Repository.
  */
-public interface Repository<E> {
+public sealed interface Repository<E> permits GuestRepository, BookingRepository, UsersRepository, RoomRepository {
     /**
      * Returns a list of all the elements.
      * @return A {@link List} of all the elements.

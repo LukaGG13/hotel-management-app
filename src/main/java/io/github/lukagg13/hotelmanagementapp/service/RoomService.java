@@ -87,4 +87,3 @@ public final class RoomService {
         return roomRepository.update(room);
     }
 }
-

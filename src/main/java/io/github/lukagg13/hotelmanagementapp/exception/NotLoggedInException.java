@@ -1,5 +1,8 @@
 package io.github.lukagg13.hotelmanagementapp.exception;
 
+/**
+ * Exception to be thrown when User is trying to access something while not logged in.
+ */
 public class NotLoggedInException extends RuntimeException {
 
     /**

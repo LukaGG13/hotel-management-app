@@ -30,7 +30,6 @@ class UsersRepositoryTest {
             try (var reader = new FileReader("src/test/java/resources/hotel_management_app_test.sql")) {
                 RunScript.execute(connection, reader);
             }
-            // Initialize repository with the open connection
             repository = new UsersRepository(connection);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,7 +75,6 @@ class UsersRepositoryTest {
 
         List<User> users = repository.getAll();
 
-        // Adjust the expected size depending on whether your sql script pre-populates seed data
         assertTrue(users.size() >= 2, "Should return at least the 2 users created in this test.");
 
         boolean foundAdmin = users.stream().anyMatch(u -> u.getUuid().equals(uuid1) && u instanceof Admin);
@@ -98,7 +96,6 @@ class UsersRepositoryTest {
         assertEquals("boss_admin", result.get().getUserName());
         assertInstanceOf(Admin.class, result.get());
 
-        // Test non-existent UUID
         Optional<User> emptyResult = repository.getWithUUID(UUID.randomUUID());
         assertTrue(emptyResult.isEmpty());
     }
@@ -109,7 +106,6 @@ class UsersRepositoryTest {
         User staff = new HotelStaffAccount(uuid, "old_name", 1);
         repository.create(staff);
 
-        // Update username and role (switching from Staff to Admin for testing fallback logic)
         User updatedStaff = new Admin(uuid, "new_name", 0);
         boolean isUpdated = repository.update(updatedStaff);
 
@@ -134,7 +130,6 @@ class UsersRepositoryTest {
         Optional<User> fetched = repository.getWithUUID(uuid);
         assertTrue(fetched.isEmpty(), "Deleted user should no longer exist in the database.");
 
-        // Deleting non-existent should yield false
         boolean deleteNonExistent = repository.deleteWithUUID(UUID.randomUUID());
         assertFalse(deleteNonExistent);
     }

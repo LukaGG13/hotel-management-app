@@ -2,6 +2,9 @@ package io.github.lukagg13.hotelmanagementapp.exception;
 
 import java.security.PrivilegedActionException;
 
+/**
+ * Exception to be thrown when the User entered the wrong password.
+ */
 public class IncorrectPasswordException extends Exception {
     /**
      * Constructs a new exception with {@code null} as its detail message.

@@ -13,11 +13,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Repository used to interact with {@link Guest}'s from the Database.
+ */
 public final class GuestRepository implements Repository<Guest> {
 
     final Connection connection;
     static final Logger log = LoggerFactory.getLogger(GuestRepository.class);
 
+    /**
+     * Returns a new {@link GuestRepository} instance.
+     * @param connection The {@link Connection} that will be used to interact with the database.
+     */
     public GuestRepository(Connection connection) {
         this.connection = connection;
         log.info("Creating UsersRepository instance.");
@@ -99,6 +106,12 @@ public final class GuestRepository implements Repository<Guest> {
         }
     }
 
+    /**
+     * Returns a {@link Guest} from a {@link ResultSet}.
+     * @param resultSet The {@link ResultSet} from which to get the {@link Guest}.
+     * @return The created {@link Guest}.
+     * @throws SQLException If there is an error with the database.
+     */
     private Guest resultSetToGuest(ResultSet resultSet) throws SQLException {
         var uuid = resultSet.getObject("id", UUID.class);
         var name = resultSet.getString("name");

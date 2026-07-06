@@ -15,11 +15,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Repository used to interact with the {@link User}'s from the Database.
+ */
 public final class UsersRepository implements Repository<User>  {
 
     final Connection connection;
     static final Logger log = LoggerFactory.getLogger(UsersRepository.class);
 
+    /**
+     * Returns a new {@link UsersRepository} instance.
+     * @param connection The {@link Connection} that will be used to interact with the database.
+     */
     public UsersRepository(Connection connection) {
         this.connection = connection;
         log.info("Creating UsersRepository instance.");
@@ -101,12 +108,17 @@ public final class UsersRepository implements Repository<User>  {
         }
     }
 
+    /**
+     * Returns a {@link User} from a {@link ResultSet}.
+     * @param resultSet The {@link ResultSet} from which to get the {@link User}.
+     * @return The created {@link User}.
+     * @throws SQLException If there is an error with the database.
+     */
     private User resultSetToUser(ResultSet resultSet) throws SQLException {
         var uuid = resultSet.getObject("id", UUID.class);
         var username = resultSet.getString("username");
         var roleId = resultSet.getInt("role_id");
 
-        //TODO: fix magic number
         if(roleId == 0) {
             return new Admin(uuid, username, roleId);
         } else {

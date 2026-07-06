@@ -12,8 +12,6 @@ import java.util.UUID;
 
 /**
  * Class representing a room
- * @version 1.0
- * @author luka
  */
 public final class Room implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(Room.class);
@@ -29,8 +27,6 @@ public final class Room implements Serializable {
 
     /**
      * RoomBuilder - using builder pattern.
-     * @version 1.0
-     * @author luka
      */
     public static final class RoomBuilder {
         private final UUID uuid;

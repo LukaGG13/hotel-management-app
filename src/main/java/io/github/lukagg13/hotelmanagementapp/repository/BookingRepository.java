@@ -11,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class BookingRepository implements Repository<Booking> {
+/**
+ * Repository used to interact with {@link Booking}'s from the Database.
+ */
+public final class BookingRepository implements Repository<Booking> {
 
     private final Connection connection;
     private final RoomRepository roomRepository;
@@ -19,6 +22,10 @@ public class BookingRepository implements Repository<Booking> {
 
     static final Logger log = LoggerFactory.getLogger(BookingRepository.class);
 
+    /**
+     * Returns a new {@link BookingRepository} instance.
+     * @param connection The {@link Connection} that will be used to interact with the database.
+     */
     public BookingRepository(Connection connection) {
         this.connection = connection;
         log.info("Creating BookingRepository instance.");
@@ -36,15 +43,13 @@ public class BookingRepository implements Repository<Booking> {
                 bookingList.add(resultSetToBooking(resultSet));
             }
             return bookingList;
-        } catch (Exception e) {
-            log.error("Error while getting all bookings: {}", e.getMessage());
+        } catch (SQLException e) {
             throw new DatabaseException(e);
         }
     }
 
     @Override
     public Optional<Booking> getWithUUID(UUID uuid) {
-        //TODO:
         return getAll().stream().filter(booking -> booking.uuid().equals(uuid)).findFirst();
     }
 
@@ -55,7 +60,6 @@ public class BookingRepository implements Repository<Booking> {
             prepareStatement.setString(1, uuid.toString());
             return prepareStatement.executeUpdate() == 1;
         } catch (SQLException e) {
-            log.error("Error while deleting booking with uuid {}: {}", uuid, e.getMessage());
             throw new DatabaseException(e);
         }
     }
@@ -65,6 +69,12 @@ public class BookingRepository implements Repository<Booking> {
         return deleteWithUUID(elem.uuid()) && create(elem);
     }
 
+    /**
+     * Add a {@link Guest} to the guests_in_booking table.
+     * @param elem The {@link Guest} to be added.
+     * @return True if successful else false
+     * @throws SQLException If there is an error with the database.
+     */
     private boolean addGuestsToBooking(Booking elem) throws SQLException {
        final var query = "INSERT INTO guests_in_booking(booking_id, guest_id) VALUES(?,?)";
        for(var guest : elem.guests()) {
@@ -94,26 +104,37 @@ public class BookingRepository implements Repository<Booking> {
         }
     }
 
+    /**
+     * Returns the {@link Guest} in the {@link Booking}.
+     * @param resultSet The {@link ResultSet} of the query to get the booking UUID.
+     * @return A {@link Set} of {@link Guest} that are in the {@link Booking} from the resultSet.
+     * @throws SQLException If there is an error with the Database.
+     */
     private Set<Guest> getGuestForBooking(ResultSet resultSet) throws SQLException {
         var guestSet = new HashSet<Guest>();
         var bookingUUID = resultSet.getObject("id", UUID.class);
         final var query = "SELECT guest_id FROM guests_in_booking WHERE booking_id=?";
-        try( var ptst = connection.prepareStatement(query)) {
-            ptst.setString(1, bookingUUID.toString());
-            try(var rs = ptst.executeQuery()) {
+        try( var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, bookingUUID.toString());
+            try(var rs = preparedStatement.executeQuery()) {
                 while(rs.next()) {
                     var guestUUID = rs.getObject("guest_id", UUID.class);
                     guestRepository.getWithUUID(guestUUID).ifPresent(guestSet::add);
                 }
             }
         } catch (SQLException e) {
-            log.error("Error while getting guests for booking: {}", e.getMessage());
             throw new DatabaseException(e);
         }
 
         return guestSet;
     }
 
+    /**
+     * Returns a {@link Booking} from a {@link ResultSet}.
+     * @param resultSet The {@link ResultSet} from which to get the {@link Booking}.
+     * @return The created {@link Booking}.
+     * @throws SQLException If there is an error with the database.
+     */
     private Booking resultSetToBooking(ResultSet resultSet) throws SQLException {
 
         var bookingUUID = resultSet.getObject("id", UUID.class);

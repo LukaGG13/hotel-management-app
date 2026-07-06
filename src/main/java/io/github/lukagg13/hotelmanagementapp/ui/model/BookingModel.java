@@ -14,10 +14,9 @@ import java.util.stream.Collectors;
  */
 public class BookingModel {
 
-    //TODO: promjeni.
     private final ObjectProperty<UUID> bookingUUID = new SimpleObjectProperty<>(this, "bookingUUID");
-    private final ObjectProperty<LocalDate> checkInDate = new SimpleObjectProperty<>(this, "checkInDate");
-    private final ObjectProperty<LocalDate> checkOutDate = new SimpleObjectProperty<>(this, "checkOutDate");
+    private final ObjectProperty<LocalDate> bookingCheckInDate = new SimpleObjectProperty<>(this, "checkInDate");
+    private final ObjectProperty<LocalDate> bookingCheckOutDate = new SimpleObjectProperty<>(this, "checkOutDate");
 
     private final ObjectProperty<RoomModel> room = new SimpleObjectProperty<>(this, "room");
     private final ListProperty<GuestModel> guestList = new SimpleListProperty<>(this, "guestList", FXCollections.observableArrayList());
@@ -28,8 +27,8 @@ public class BookingModel {
      */
     public BookingModel(Booking booking) {
         bookingUUID.setValue(booking.uuid());
-        checkInDate.setValue(booking.checkInDate());
-        checkOutDate.setValue(booking.checkOutDate());
+        bookingCheckInDate.setValue(booking.checkInDate());
+        bookingCheckOutDate.setValue(booking.checkOutDate());
         room.setValue(new RoomModel(booking.room()));
         guestList.setAll(booking.guests().stream().map(GuestModel::new).toList());
     }
@@ -39,8 +38,8 @@ public class BookingModel {
      */
     public BookingModel() {
         bookingUUID.setValue(UUID.randomUUID());
-        checkInDate.setValue(LocalDate.now());
-        checkOutDate.setValue(LocalDate.now().plusDays(1));
+        bookingCheckInDate.setValue(LocalDate.now());
+        bookingCheckOutDate.setValue(LocalDate.now().plusDays(1));
     }
 
     /**
@@ -71,8 +70,8 @@ public class BookingModel {
      * Returns the check-in date.
      * @return the check-in date.
      */
-    public LocalDate getCheckInDate() {
-        return checkInDate.get();
+    public LocalDate getBookingCheckInDate() {
+        return bookingCheckInDate.get();
     }
 
     /**
@@ -80,15 +79,15 @@ public class BookingModel {
      * @return the check-in date property.
      */
     public ObjectProperty<LocalDate> checkInDateProperty() {
-        return checkInDate;
+        return bookingCheckInDate;
     }
 
     /**
      * Returns the check-out date.
      * @return the check-out date.
      */
-    public LocalDate getCheckOutDate() {
-        return checkOutDate.get();
+    public LocalDate getBookingCheckOutDate() {
+        return bookingCheckOutDate.get();
     }
 
     /**
@@ -96,7 +95,7 @@ public class BookingModel {
      * @return the check-out date property.
      */
     public ObjectProperty<LocalDate> checkOutDateProperty() {
-        return checkOutDate;
+        return bookingCheckOutDate;
     }
 
     /**
@@ -131,6 +130,7 @@ public class BookingModel {
         return guestList;
     }
 
+
     /**
      * Return a {@link Booking} from the {@link BookingModel}'s values.
      * @return a new {@link Booking} with the {@link BookingModel}'s values.
@@ -140,8 +140,8 @@ public class BookingModel {
                 getBookingUUID(),
                 getGuestList().stream().map(GuestModel::toGuest).collect(Collectors.toSet()),
                 getRoom().toRoom(),
-                getCheckInDate(),
-                getCheckOutDate()
+                getBookingCheckInDate(),
+                getBookingCheckOutDate()
         );
     }
 }

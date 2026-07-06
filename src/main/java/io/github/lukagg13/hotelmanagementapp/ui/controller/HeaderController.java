@@ -1,6 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
-import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -8,17 +8,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * Controller used to manage the header in the app.
+ */
 public class HeaderController {
 
     static final Logger log = LoggerFactory.getLogger(HeaderController.class);
     static final String USER_NOT_LOGGED_IN_ERROR_MESSAGE = "You are not logged in, please login in first Thank you!";
 
+    /**
+     * Event that handles the login button and switch the view to it.
+     */
     @FXML
     private void handleLogin() {
         log.debug("handle login clicked");
         ViewManager.switchView(ViewManager.ViewPath.LOGIN);
     }
 
+    /**
+     * Event that handles the guest button and switch the view to it.
+     */
     @FXML
     private void handleGuests() {
         log.debug("handle guests clicked");
@@ -31,6 +40,9 @@ public class HeaderController {
         }
     }
 
+    /**
+     * Event that handles the guest rooms and switch the view to it.
+     */
     @FXML
     private void handleRooms() {
         log.debug("handle rooms clicked");
@@ -43,6 +55,9 @@ public class HeaderController {
         }
     }
 
+    /**
+     * Event that handles the bookings rooms and switch the view to it.
+     */
     @FXML
     private void handleBookings() {
         log.debug("handle bookings clicked");
@@ -56,6 +71,9 @@ public class HeaderController {
         }
     }
 
+    /**
+     * Event that handles the history rooms and switch the view to it.
+     */
     @FXML
     private void handleHistory() {
         log.debug("handle History clicked");

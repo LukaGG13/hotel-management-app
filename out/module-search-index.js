@@ -1,0 +1,1 @@
+moduleSearchIndex = [{"l":"io.github.lukagg13.hotelmanagementapp"}];updateSearchResults();

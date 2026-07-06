@@ -28,11 +28,9 @@ class GuestRepositoryTest {
             try (var reader = new FileReader("src/test/java/resources/hotel_management_app_test.sql")) {
                 RunScript.execute(connection, reader);
             }
-            // Initialize repository with the open connection
             repository = new GuestRepository(connection);
         } catch (Exception e) {
-            e.printStackTrace();
-            fail("Setup failed due to exception: " + e.getMessage());
+            fail(e.getMessage());
         }
     }
 
@@ -59,7 +57,7 @@ class GuestRepositoryTest {
         var newGuest = new Guest(newUuid, name, age);
 
         boolean isCreated = repository.create(newGuest);
-        assertTrue(isCreated, "User should be successfully created.");
+        assertTrue(isCreated, "User should be successfully created");
 
         Optional<Guest> fetchedUser = repository.getWithUUID(newUuid);
         assertTrue(fetchedUser.isPresent());
@@ -83,14 +81,13 @@ class GuestRepositoryTest {
 
         List<Guest> guests = repository.getAll();
 
-        // Adjust the expected size depending on whether your sql script pre-populates seed data
-        assertTrue(guests.size() >= 2, "Should return at least the 2 guests created in this test.");
+        assertTrue(guests.size() >= 2, "Should return at least the 2 guests created in this test");
 
         boolean foundGuest1 = guests.stream().anyMatch(u -> u.uuid().equals(uuid1));
         boolean foundGuest2 = guests.stream().anyMatch(u -> u.uuid().equals(uuid2));
 
-        assertTrue(foundGuest1, "Guest1 should be in the returned list.");
-        assertTrue(foundGuest2, "Guest2 should should be in the returned list.");
+        assertTrue(foundGuest1, "Guest1 should be in the returned list");
+        assertTrue(foundGuest2, "Guest2 should should be in the returned list");
     }
 
     @Test
@@ -104,7 +101,6 @@ class GuestRepositoryTest {
         assertTrue(result.isPresent());
         assertEquals("Tun tun sahur", result.get().name());
 
-        // Test non-existent UUID
         Optional<Guest> emptyResult = repository.getWithUUID(UUID.randomUUID());
         assertTrue(emptyResult.isEmpty());
     }
@@ -112,14 +108,13 @@ class GuestRepositoryTest {
     @Test
     void testUpdate() {
         var uuid = UUID.randomUUID();
-        var guest = new Guest(uuid, "Tun Tun sahur ", 17);
+        var guest = new Guest(uuid, "Tun Tun sahur", 17);
         repository.create(guest);
 
-        // Update username and role (switching from Staff to Admin for testing fallback logic)
         Guest updatedGuest = new Guest(uuid, "Triple T", 21);
         boolean isUpdated = repository.update(updatedGuest);
 
-        assertTrue(isUpdated, "Update should return true on successful execution.");
+        assertTrue(isUpdated, "Update should return true on successful execution");
 
         Optional<Guest> fetched = repository.getWithUUID(uuid);
         assertTrue(fetched.isPresent());
@@ -134,10 +129,10 @@ class GuestRepositoryTest {
         repository.create(temp);
 
         boolean isDeleted = repository.deleteWithUUID(uuid);
-        assertTrue(isDeleted, "Delete operation should confirm row removal.");
+        assertTrue(isDeleted, "Delete operation should confirm row removal");
 
         Optional<Guest> fetched = repository.getWithUUID(uuid);
-        assertTrue(fetched.isEmpty(), "Deleted user should no longer exist in the database.");
+        assertTrue(fetched.isEmpty(), "Deleted user should no longer exist in the database");
 
         boolean deleteNonExistent = repository.deleteWithUUID(UUID.randomUUID());
         assertFalse(deleteNonExistent);

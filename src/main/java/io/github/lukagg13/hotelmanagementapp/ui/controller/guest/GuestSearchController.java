@@ -1,6 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.guest;
 
-import io.github.lukagg13.hotelmanagementapp.ViewManager;
+import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.entity.Guest;
 import io.github.lukagg13.hotelmanagementapp.service.GuestService;
 import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;
@@ -31,7 +31,7 @@ public class GuestSearchController {
     @FXML
     private Button createButton;
 
-    private final ObservableList<GuestModel> masterGuests = FXCollections.observableArrayList();
+    private final ObservableList<GuestModel> guestModels = FXCollections.observableArrayList();
     private FilteredList<GuestModel> filteredGuests;
     private final List<GuestModel> selectedGuestModels = new ArrayList<>();
 
@@ -59,8 +59,8 @@ public class GuestSearchController {
      */
     @FXML
     public void initialize() {
-        guestService.getAll().forEach(g -> masterGuests.add(new GuestModel(g)));
-        filteredGuests = new FilteredList<>(masterGuests, _ -> true);
+        guestService.getAll().forEach(guest -> guestModels.add(new GuestModel(guest)));
+        filteredGuests = new FilteredList<>(guestModels, _ -> true);
 
         searchField.textProperty().addListener((_, _, query) ->
             filteredGuests.setPredicate(guestModel -> query == null || query.isBlank() ||
@@ -82,7 +82,7 @@ public class GuestSearchController {
             optionalGuestModel.ifPresent(guestModel -> {
                 guestService.create(createdGuestModel.toGuest());
                 selectedGuestModels.add(createdGuestModel);
-                masterGuests.add(createdGuestModel);
+                guestModels.add(createdGuestModel);
             });
         });
 
@@ -123,7 +123,8 @@ public class GuestSearchController {
     /**
      * Resets the apply CSS for a {@link GuestComponentController}.
      * @param guestComponentController The {@link GuestComponentController} that the CSS will be reset to.
-     */private void resetStyle(GuestComponentController guestComponentController) {
+     */
+    private void resetStyle(GuestComponentController guestComponentController) {
         guestComponentController.setStyle("-fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-radius: 5; -fx-background-color: transparent;");
         guestComponentController.applyCss();
         guestComponentController.layout();

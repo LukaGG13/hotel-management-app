@@ -2,7 +2,11 @@ package io.github.lukagg13.hotelmanagementapp.exception;
 
 import java.security.PrivilegedActionException;
 
-public class UserNotFoundException extends Exception {
+
+/**
+ * Exception to be thrown when the User entered the wrong username.
+ */
+public class IncorrectUsernameException extends Exception {
     /**
      * Constructs a new exception with the specified detail message,
      * cause, suppression enabled or disabled, and writable stack
@@ -17,7 +21,7 @@ public class UserNotFoundException extends Exception {
      *                           be writable
      * @since 1.7
      */
-    public UserNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public IncorrectUsernameException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
@@ -35,7 +39,7 @@ public class UserNotFoundException extends Exception {
      *              unknown.)
      * @since 1.4
      */
-    public UserNotFoundException(Throwable cause) {
+    public IncorrectUsernameException(Throwable cause) {
         super(cause);
     }
 
@@ -53,7 +57,7 @@ public class UserNotFoundException extends Exception {
      *                unknown.)
      * @since 1.4
      */
-    public UserNotFoundException(String message, Throwable cause) {
+    public IncorrectUsernameException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -65,7 +69,7 @@ public class UserNotFoundException extends Exception {
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public UserNotFoundException(String message) {
+    public IncorrectUsernameException(String message) {
         super(message);
     }
 
@@ -74,6 +78,6 @@ public class UserNotFoundException extends Exception {
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      */
-    public UserNotFoundException() {
+    public IncorrectUsernameException() {
     }
 }

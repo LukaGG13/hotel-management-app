@@ -14,7 +14,6 @@ public class Admin extends User {
      * @param role The role of the {@link Admin} as {@link Integer}
      */
     public Admin(UUID uuid, String userName, Integer role) {
-        //TODO: change role to and enum.
         super(uuid, userName, role);
     }
 }

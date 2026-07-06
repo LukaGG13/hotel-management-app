@@ -8,9 +8,11 @@ import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+
 
 /**
- * Controller used to controlle the history view.
+ * Controller used for the history view.
  */
 public class HistoryController {
 
@@ -25,7 +27,19 @@ public class HistoryController {
     @FXML
     private void initialize() {
         Thread.ofVirtual().start(() -> {
+            var activeRecordList = new ArrayList<>();
             while (!Thread.currentThread().isInterrupted()) {
+
+                if(activeRecordList.equals(History.readAllLogs())) {
+                    continue;
+                }
+
+                Platform.runLater(() ->
+                        historyVBox.getChildren().clear()
+                );
+                activeRecordList.clear();
+                activeRecordList.addAll(History.readAllLogs());
+
                 History.readAllLogs().forEach(historyLog ->
                     Platform.runLater(() -> {
                         HistoryComponentController historyComponentController = new HistoryComponentController(new HistoryRecordLogModel(historyLog));
@@ -35,10 +49,6 @@ public class HistoryController {
 
                 try {
                     Thread.sleep(3000);
-                    Platform.runLater(() ->
-                        historyVBox.getChildren().clear()
-                    );
-                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     log.warn("Interrupted {}", e.getMessage());
                     Thread.currentThread().interrupt();
