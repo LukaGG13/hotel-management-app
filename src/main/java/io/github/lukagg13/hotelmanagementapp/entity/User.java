@@ -14,7 +14,7 @@ public abstract class User {
      * A constructor for the abstract {@link User} class.
      * @param uuid The {@link UUID} of the {@link User}.
      * @param userName The username as a {@link String}.
-     * @param role TODO: enum
+     * @param role
      */
     protected User(UUID uuid, String userName, Integer role) {
         this.uuid = uuid;

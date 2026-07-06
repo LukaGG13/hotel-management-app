@@ -122,7 +122,6 @@ public class BookingCreateController {
      * Opens a {@link Modal} for selecting a {@link io.github.lukagg13.hotelmanagementapp.entity.Room} that will be
      * used in the {@link Booking}.
      */
-    //TODO: lose jel modifija state trebalo bi returnat.
     private void handleSelectRoom() {
         var modalResult = new Modal.ModalBuilder<RoomSearchController, RoomModel>(ViewManager.ViewPath.ROOM_SEARCH)
                 .title("Select a Room")
@@ -141,7 +140,6 @@ public class BookingCreateController {
      * Opens a {@link Modal} for selecting {@link io.github.lukagg13.hotelmanagementapp.entity.Guest}'s that will be
      * used in the {@link Booking}.
      */
-    //TODO: lose jel modifija state trebalo bi returnat.
     private void handleSelectGuests() {
         var modalResult = new Modal.ModalBuilder<GuestSearchController, List<GuestModel>>(ViewManager.ViewPath.GUEST_SEARCH)
                 .title("Select Guests")

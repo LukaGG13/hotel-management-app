@@ -55,7 +55,7 @@ public class RoomModel {
                 String amenitiesString = amenityMapToString(amenitiesMap);
                 amenities.setValue(amenitiesString);
             });
-            amenitiesMap.put(amenity, simpleBooleanProperty); //TODO: drugki konstrkutor i amenteies fix
+            amenitiesMap.put(amenity, simpleBooleanProperty);
         }
         amenities.setValue(amenityMapToString(amenitiesMap));
     }
@@ -79,8 +79,7 @@ public class RoomModel {
             });
 
 
-            amenitiesMap.put(amenity, simpleBooleanProperty); //TODO: drugki konstrkutor i amenteies fix treba incijalno postavit amenties
-            //TODO: glupi slop code
+            amenitiesMap.put(amenity, simpleBooleanProperty);
         }
         amenities.setValue(amenityMapToString(amenitiesMap));
 

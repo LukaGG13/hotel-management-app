@@ -31,7 +31,6 @@
             <TableColumn fx:id="distanceFromCityCenter" text="Distance city km" />
             <TableColumn fx:id="distanceFromBeach" text="Distance beach km" />
             <TableColumn fx:id="amenities" text="Amenities" />
-            <TableColumn fx:id="editAndDelete" text="Actions" />
         </columns>
     </TableView>
 

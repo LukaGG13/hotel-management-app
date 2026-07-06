@@ -26,7 +26,7 @@ public final class GuestRepository implements Repository<Guest> {
     @Override
     public List<Guest> getAll() {
         log.info("Getting all guests.");
-        final String query = "SELECT id, name, age FROM guests;"; //TODO
+        final String query = "SELECT id, name, age FROM guests;";
         var guestList = new ArrayList<Guest>();
         try (   var prepareStatement = connection.prepareStatement(query);
                 var resultSet = prepareStatement.executeQuery()) {
@@ -104,7 +104,6 @@ public final class GuestRepository implements Repository<Guest> {
         var name = resultSet.getString("name");
         var age = resultSet.getInt("age");
 
-        //TODO fix magick number
         return new Guest(uuid, name, age);
     }
 }

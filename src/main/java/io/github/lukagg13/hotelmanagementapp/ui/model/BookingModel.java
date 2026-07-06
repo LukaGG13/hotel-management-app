@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class BookingModel {
 
-    //TODO: promjeni i vidi zasto ne radi.
+    //TODO: promjeni.
     private final ObjectProperty<UUID> bookingUUID = new SimpleObjectProperty<>(this, "bookingUUID");
     private final ObjectProperty<LocalDate> checkInDate = new SimpleObjectProperty<>(this, "checkInDate");
     private final ObjectProperty<LocalDate> checkOutDate = new SimpleObjectProperty<>(this, "checkOutDate");

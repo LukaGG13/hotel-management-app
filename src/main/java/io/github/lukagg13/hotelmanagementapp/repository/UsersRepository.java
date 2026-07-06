@@ -106,7 +106,7 @@ public final class UsersRepository implements Repository<User>  {
         var username = resultSet.getString("username");
         var roleId = resultSet.getInt("role_id");
 
-        //TODO fix magick number
+        //TODO: fix magic number
         if(roleId == 0) {
             return new Admin(uuid, username, roleId);
         } else {

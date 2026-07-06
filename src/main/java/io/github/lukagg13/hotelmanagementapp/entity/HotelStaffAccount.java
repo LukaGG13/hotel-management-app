@@ -14,7 +14,6 @@ public class HotelStaffAccount extends User{
      * @param role The role of the {@link HotelStaffAccount} as {@link Integer}
      */
     public HotelStaffAccount(UUID uuid, String userName, Integer role) {
-        //TODO: switch role to enum.
         super(uuid, userName, role);
     }
 }

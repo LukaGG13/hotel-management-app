@@ -77,23 +77,36 @@ public class GuestController {
         });
 
         editGuestButton.setOnAction(_ -> {
+            var model = table.getSelectionModel().getSelectedItem();
+            if(model == null) return;
+
+            var buttonTypeOptional = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to edit the user?").showAndWait();
+            if(!buttonTypeOptional.orElse(ButtonType.NO).equals(ButtonType.OK)) return;
+
             var updatedGuestModel = new Modal.ModalBuilder<GuestCreateController, GuestModel>(ViewManager.ViewPath.GUEST_CREATE)
                     .title("Edit Guest")
-                    .controller(new GuestCreateController(table.getSelectionModel().getSelectedItem()))
+                    .controller(new GuestCreateController(model))
                     .mapper(GuestCreateController::getGuestModel)
                     .build()
                     .showAndWait();
 
-            //TODO: fix da refetca iz servisa
             updatedGuestModel.ifPresent(guestModel ->
                guestService.update(guestModel.toGuest())
             );
+            data.setAll(getListOfGuestModels());
         });
 
         deleteGuestButton.setOnAction(_ -> {
             var model = table.getSelectionModel().getSelectedItem();
-            guestService.deleteWithUUID(model.toGuest().uuid());
-            data.remove(model);
+            if (model == null) return;
+            var result = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the user?").showAndWait();
+
+            result.ifPresent(buttonType -> {
+                if(buttonType.equals(ButtonType.OK)) {
+                    guestService.deleteWithUUID(model.toGuest().uuid());
+                    data.remove(model);
+                }
+            });
         });
     }
 
