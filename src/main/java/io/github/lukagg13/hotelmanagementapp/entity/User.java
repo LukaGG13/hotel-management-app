@@ -14,7 +14,7 @@ public abstract class User {
      * A constructor for the abstract {@link User} class.
      * @param uuid The {@link UUID} of the {@link User}.
      * @param userName The username as a {@link String}.
-     * @param role
+     * @param role The role of the user.
      */
     protected User(UUID uuid, String userName, Integer role) {
         this.uuid = uuid;
@@ -54,10 +54,18 @@ public abstract class User {
         this.userName = userName;
     }
 
+    /**
+     * Get the role of the user.
+     * @return The role.
+     */
     public Integer getRole() {
         return role;
     }
 
+    /**
+     * Sets the role of the user
+     * @param role The role to be set.
+     */
     public void setRole(Integer role) {
         this.role = role;
     }

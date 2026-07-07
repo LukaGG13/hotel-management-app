@@ -1,7 +1,9 @@
 package io.github.lukagg13.hotelmanagementapp.ui;
 
 import io.github.lukagg13.hotelmanagementapp.database.DatabaseUtils;
+import io.github.lukagg13.hotelmanagementapp.entity.Admin;
 import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
+import io.github.lukagg13.hotelmanagementapp.exception.OnlyAdminShouldChangeRoomsException;
 import io.github.lukagg13.hotelmanagementapp.repository.BookingRepository;
 import io.github.lukagg13.hotelmanagementapp.repository.GuestRepository;
 import io.github.lukagg13.hotelmanagementapp.repository.RoomRepository;
@@ -17,6 +19,7 @@ import io.github.lukagg13.hotelmanagementapp.ui.controller.room.RoomController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -63,10 +66,16 @@ public class ViewManager {
      */
     private ViewManager(){}
 
+    /**
+     * Set the main stage of the app and set the icon.
+     * @param stage The main {@link Stage}.
+     */
     public static void setStage(Stage stage) {
         ViewManager.stage = stage;
         scene = new Scene(new Pane());
         stage.setScene(scene);
+        var image = new Image("goodhotels.png");
+        stage.getIcons().add(image);
         stage.setTitle("Hotel management");
 
         stage.setMaximized(true);
@@ -101,6 +110,8 @@ public class ViewManager {
      */
     public static void switchView(ViewPath viewPath) {
         if(LoginService.getLoggedInUser().isEmpty() && !viewPath.equals(ViewPath.LOGIN)) throw new NotLoggedInException("User is not logged in");
+        if(viewPath.equals(ViewPath.ROOM) && !(LoginService.getLoggedInUser().orElse(null) instanceof Admin)) throw new OnlyAdminShouldChangeRoomsException("Only admin should change the rooms");
+
         var controller = switch (viewPath) {
             case LOGIN -> new LoginController();
             case GUEST -> new GuestController(new GuestService(new GuestRepository(connection)));

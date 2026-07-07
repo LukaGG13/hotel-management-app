@@ -1,9 +1,7 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller.room;
 
 import io.github.lukagg13.hotelmanagementapp.entity.Room;
-import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.service.RoomService;
-import io.github.lukagg13.hotelmanagementapp.ui.component.Modal;
 import io.github.lukagg13.hotelmanagementapp.ui.model.RoomModel;
 import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
@@ -17,7 +15,6 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Controller used for searching and selecting {@link Room}'s.
@@ -29,8 +26,6 @@ public class RoomSearchController {
     private VBox roomsVBox;
     @FXML
     private Button selectButton;
-    @FXML
-    private Button createButton;
 
     private final ObservableList<RoomModel> roomModels = FXCollections.observableArrayList();
     private FilteredList<RoomModel> filteredRooms;
@@ -66,23 +61,6 @@ public class RoomSearchController {
         filteredRooms.addListener((InvalidationListener) _ -> refreshDisplay());
         refreshDisplay();
 
-        createButton.setOnAction(_ -> {
-            final var buttonClicked = new AtomicBoolean(false);
-            var optionalRoomModel = new Modal.ModalBuilder<RoomCreateController, RoomModel>(ViewManager.ViewPath.ROOM_CREATE)
-                    .title("Create Room")
-                    .controller(new RoomCreateController(new RoomModel(), _ -> buttonClicked.set(true) , "Create"))
-                    .mapper(RoomCreateController::getRoomModel)
-                    .build()
-                    .showAndWait();
-
-            if(!buttonClicked.get() || optionalRoomModel.isEmpty()) return;
-
-            var createdRoomModel = optionalRoomModel.orElseThrow();
-            roomService.create(createdRoomModel.toRoom());
-
-            selectedRoomModel = createdRoomModel;
-            roomModels.add(createdRoomModel);
-        });
 
         selectButton.setOnAction(_ -> {
             selectButtonClicked = true;

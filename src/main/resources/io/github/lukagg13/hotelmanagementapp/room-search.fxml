@@ -23,10 +23,7 @@
                        promptText="Search"
                        prefHeight="35.0"
                        HBox.hgrow="ALWAYS" />
-            <Button fx:id="createButton"
-                    text="Create"
-                    prefHeight="35.0"
-                    prefWidth="80.0" />
+
         </children>
     </HBox>
 

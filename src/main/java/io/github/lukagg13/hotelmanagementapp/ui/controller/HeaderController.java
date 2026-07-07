@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
+import io.github.lukagg13.hotelmanagementapp.exception.OnlyAdminShouldChangeRoomsException;
 import io.github.lukagg13.hotelmanagementapp.service.LoginService;
 import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
@@ -53,6 +54,9 @@ public class HeaderController {
             log.error("Trying to access room without being logged in  {}", e.getMessage());
             new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
             handleLogin();
+        } catch (OnlyAdminShouldChangeRoomsException e) {
+            log.error("Trying to change rooms while not admin {}", e.getMessage());
+            new Alert(Alert.AlertType.ERROR, "Please log in as Admin").showAndWait();
         }
     }
 
