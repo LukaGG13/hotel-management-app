@@ -1,5 +1,6 @@
 package io.github.lukagg13.hotelmanagementapp.ui.controller;
 
+import io.github.lukagg13.hotelmanagementapp.service.LoginService;
 import io.github.lukagg13.hotelmanagementapp.ui.ViewManager;
 import io.github.lukagg13.hotelmanagementapp.exception.NotLoggedInException;
 import javafx.fxml.FXML;
@@ -81,6 +82,19 @@ public class HeaderController {
             ViewManager.switchView(ViewManager.ViewPath.HISTORY_VIEW);
         } catch (NotLoggedInException e) {
             log.error("Trying to access history without being logged in {}", e.getMessage());
+            new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
+            handleLogin();
+        }
+    }
+
+    @FXML
+    private void handleLogout() {
+        log.debug("handle logout clicked");
+        try {
+            LoginService.logout();
+            ViewManager.switchView(ViewManager.ViewPath.LOGIN);
+        } catch (NotLoggedInException e) {
+            log.error("Trying to access logout without being logged in {}", e.getMessage());
             new Alert(Alert.AlertType.ERROR, USER_NOT_LOGGED_IN_ERROR_MESSAGE).showAndWait();
             handleLogin();
         }

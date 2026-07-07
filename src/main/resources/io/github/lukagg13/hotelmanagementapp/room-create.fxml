@@ -39,22 +39,22 @@
                 </rowConstraints>
                 <children>
                     <Label text="Number of beds" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <Spinner fx:id="numberOfBedsSpinner" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Spinner fx:id="numberOfBedsSpinner" maxWidth="10000" prefHeight="35.0" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
                     <Label text="Price per night" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                    <ValidatingTextField fx:id="pricePerNightValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 120" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <ValidatingTextField fx:id="pricePerNightValidatingTextField" maxWidth="10000" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <Label text="Size of room in m²" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                    <ValidatingTextField fx:id="sizeOfRoomValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 35" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <ValidatingTextField fx:id="sizeOfRoomValidatingTextField" maxWidth="10000" prefHeight="35.0" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
                     <Label text="Distance from city center" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    <ValidatingTextField fx:id="distanceFromCityValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 1.2 km" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <ValidatingTextField fx:id="distanceFromCityValidatingTextField" maxWidth="10000" prefHeight="35.0"  GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
                     <Label text="Distance from beach" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                    <ValidatingTextField fx:id="distanceFromBeachValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. 500 m" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <ValidatingTextField fx:id="distanceFromBeachValidatingTextField" maxWidth="10000" prefHeight="35.0" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
                     <Label text="Name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                    <ValidatingTextField fx:id="roomNumberValidatingTextField" maxWidth="1.7976931348623157E308" prefHeight="35.0" promptText="e.g. Suite 204" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <ValidatingTextField fx:id="roomNumberValidatingTextField" maxWidth="10000" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                 </children>
             </GridPane>
 

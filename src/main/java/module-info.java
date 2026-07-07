@@ -5,7 +5,6 @@ module io.github.lukagg13.hotelmanagementapp {
     requires java.sql;
     requires jbcrypt;
     requires java.desktop;
-    requires io.github.lukagg13.hotelmanagementapp;
 
 
     opens io.github.lukagg13.hotelmanagementapp to javafx.fxml;

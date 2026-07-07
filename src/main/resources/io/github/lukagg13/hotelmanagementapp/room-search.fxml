@@ -20,7 +20,7 @@
     <HBox spacing="10.0" alignment="CENTER_LEFT">
         <children>
             <TextField fx:id="searchField"
-                       promptText="Search..."
+                       promptText="Search"
                        prefHeight="35.0"
                        HBox.hgrow="ALWAYS" />
             <Button fx:id="createButton"
@@ -32,8 +32,7 @@
 
     <VBox fx:id="roomsVBox"
           spacing="10.0"
-          VBox.vgrow="ALWAYS"
-          style="-fx-background-color: #f4f4f4; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;">
+          VBox.vgrow="ALWAYS">
         <padding>
             <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
         </padding>

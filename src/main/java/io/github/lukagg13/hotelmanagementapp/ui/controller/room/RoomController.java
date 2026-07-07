@@ -88,14 +88,26 @@ public class RoomController {
             data.setAll(getListOfRoomModels());
         });
 
-        editRoomButton.setOnAction(_ -> openRoomModal(table.getSelectionModel().getSelectedItem()));
+        editRoomButton.setOnAction(_ -> {
+            var model = table.getSelectionModel().getSelectedItem();
+            if(model == null) return;
+
+            var buttonTypeOptional = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to edit the room?").showAndWait();
+            if(!buttonTypeOptional.orElse(ButtonType.NO).equals(ButtonType.OK)) return;
+
+            openRoomModal(model);
+            data.setAll(getListOfRoomModels());
+        });
 
         deleteRoomButton.setOnAction(_ -> {
             var model = table.getSelectionModel().getSelectedItem();
-            if (model != null) {
-                roomService.deleteWithUUID(model.toRoom().getId());
-                data.remove(model);
-            }
+            if(model == null) return;
+
+            var buttonTypeOptional = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the room?").showAndWait();
+
+            if(!buttonTypeOptional.orElse(ButtonType.NO).equals(ButtonType.OK)) return;
+            roomService.deleteWithUUID(model.toRoom().getId());
+            data.remove(model);
         });
     }
 
@@ -109,7 +121,7 @@ public class RoomController {
 
     private void openRoomModal(RoomModel room) {
         String title = (room == null) ? "Add New Room" : "Edit Room";
-        RoomCreateController controller = (room == null)
+        var controller = (room == null)
                 ? new RoomCreateController(new RoomModel(), roomService::create, title)
                 : new RoomCreateController(room, roomService::update, title);
 

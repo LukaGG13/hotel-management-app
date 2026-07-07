@@ -126,6 +126,11 @@ public class BookingController {
      * @param bookingModel {@link BookingModel} to be deleted.
      */
     private void handleDeleteBooking(BookingModel bookingModel) {
+        if(bookingModel == null) return;
+
+        var buttonTypeOptional = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete the booking?").showAndWait();
+        if(!buttonTypeOptional.orElse(ButtonType.NO).equals(ButtonType.OK)) return;
+
         data.remove(bookingModel);
         bookingService.deleteWithUUID(bookingModel.getBookingUUID());
     }
@@ -135,6 +140,12 @@ public class BookingController {
      * @param bookingModel {@link BookingModel} to be edited.
      */
     private void handleEditBooking(BookingModel bookingModel) {
+        if(bookingModel == null) return;
+
+        var buttonTypeOptional = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to edit the booking?").showAndWait();
+        if(!buttonTypeOptional.orElse(ButtonType.NO).equals(ButtonType.OK)) return;
+
+
         var result = new Modal.ModalBuilder<BookingCreateController, BookingModel>(ViewManager.ViewPath.BOOKING_CREATE)
                 .title("Edit Booking Reservation")
                 .controller(new BookingCreateController(bookingModel, new RoomService(new RoomRepository(DatabaseUtils.createConnection())), new GuestService(new GuestRepository(DatabaseUtils.createConnection()))))

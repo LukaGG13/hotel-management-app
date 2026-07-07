@@ -14,5 +14,6 @@
         <Button mnemonicParsing="false" onAction="#handleRooms" prefHeight="35.0" text="Rooms" />
         <Button mnemonicParsing="false" onAction="#handleBookings" prefHeight="35.0" text="Bookings" />
         <Button mnemonicParsing="false" onAction="#handleHistory" prefHeight="35.0" text="History" />
+        <Button mnemonicParsing="false" onAction="#handleLogout" prefHeight="35.0" text="Logout" />
     </children>
 </HBox>

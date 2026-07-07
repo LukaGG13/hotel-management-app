@@ -29,7 +29,7 @@
             <TableColumn fx:id="checkIn" text="Check-In Date" />
             <TableColumn fx:id="checkOut" text="Check-Out Date" />
             <TableColumn fx:id="guestCount" text="Number of Guests" />
-            <TableColumn fx:id="guestNames" text="Occupants" />
+            <TableColumn fx:id="guestNames" text="guests" />
         </columns>
     </TableView>
 

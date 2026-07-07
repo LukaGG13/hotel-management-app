@@ -41,7 +41,7 @@ public final class LoginService {
 
         var user = resultList.getFirst();
 
-        if(Boolean.FALSE.equals(PasswordUtils.check(user.getUuid(), password))) throw new IncorrectPasswordException("Password doesn't match");
+        if(Boolean.FALSE.equals(PasswordUtils.check(user.getUuid(), user.getUserName(), password))) throw new IncorrectPasswordException("Password doesn't match");
 
         log.debug("Login in successful login in as user: {}", user);
         loggedInUser = user;

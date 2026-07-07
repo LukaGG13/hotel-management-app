@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * Controller used for creating rooms.
+ */
 public final class RoomCreateController {
 
     private static final String POSITIVE_INTEGER_REGEX = "^[1-9]\\d*$";
@@ -54,6 +57,12 @@ public final class RoomCreateController {
     private final RoomModel roomModel;
     private final Consumer<Room> action;
 
+    /**
+     * Returns a new instance of the {@link RoomCreateController}.
+     * @param roomModel The model which will be bound to the ui.
+     * @param action The {@link Consumer} action that happens when the button is pressed so it can be used for updating and creating.
+     * @param buttonText The {@link String} that will be used as button text.
+     */
     public RoomCreateController(RoomModel roomModel, Consumer<Room> action, String buttonText) {
         this.roomModel = roomModel;
         this.action = action;
@@ -61,6 +70,9 @@ public final class RoomCreateController {
 
     }
 
+    /**
+     * Initialize the ui for JAVAFX.
+     */
     @FXML
     private void initialize() {
         final var validatingTextFieldsMap = new HashMap<>(Map.of(
@@ -126,6 +138,10 @@ public final class RoomCreateController {
         });
     }
 
+    /**
+     * Returns the {@link RoomModel} passed to the constructor.
+     * @return The {@link RoomModel}.
+     */
     public RoomModel getRoomModel() {
         return roomModel;
     }

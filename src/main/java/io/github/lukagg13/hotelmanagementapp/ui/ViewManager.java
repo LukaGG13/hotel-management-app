@@ -81,7 +81,7 @@ public class ViewManager {
     public static void switchView(URL view, Object controller) {
         if(stage == null) throw new IllegalStateException("No stage. Set the stage first");
 
-        log.debug("url  => {}", view);
+        log.debug("url: {}", view);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(view);
             if(controller == null) throw new IllegalArgumentException("Controller can't be null.");

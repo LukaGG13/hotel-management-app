@@ -27,18 +27,28 @@ public class PasswordUtils {
     /**
      * Checks if a password matches a corresponding {@link UUID}.
      * @param userId The {@link UUID} of the {@link User}
+     * @param userName The username of the {@link User}
      * @param password The password the {@link User} is trying to log in with
      * @return True if successful else false
      */
-    public static boolean check(UUID userId, String password) {
+    public static boolean check(UUID userId, String userName, String password) {
 
         log.debug("Checking password for UUID:{}", userId);
-        var filePath = Path.of(userId.toString());
+        var filePath = Path.of("login/" + userId.toString());
         if (!Files.exists(filePath)) return false;
         try(var fileReader = new FileReader(filePath.toFile())) {
-            var hashed = fileReader.readAllAsString();
-            log.debug("Returning {}", BCrypt.checkpw(password, hashed));
-            return BCrypt.checkpw(password, hashed);
+            var userNameAndPassword = fileReader.readAllLines();
+            if(userNameAndPassword.size() != 2) return false;
+
+            var userNameFromFile = userNameAndPassword.getFirst();
+            var hashedFromFile = userNameAndPassword.getLast();
+
+            log.debug("use rname from file {}, use rname {}", userNameFromFile, userName);
+            log.debug("hash from file {}", hashedFromFile);
+
+            if(!userNameFromFile.equals(userName)) return false;
+            log.debug("Returning {}", BCrypt.checkpw(password, hashedFromFile));
+            return BCrypt.checkpw(password, hashedFromFile);
         } catch(IOException _) {
             log.error("Can't read file {}", filePath);
             return false;
@@ -48,14 +58,15 @@ public class PasswordUtils {
     /**
      * Saves a password for the corresponding {@link UUID}.
      * @param userId The {@link UUID} of the user password that will be saved.
+     * @param userName The username of the {@link User}
      * @param password The password that will be hashed and then saved.
      */
-    public static void savePassword(UUID userId, String password) {
+    public static void savePassword(UUID userId, String userName, String password) {
         log.debug("Saving password for UUID:{}", userId);
-        var filePath = Path.of(userId.toString());
+        var filePath = Path.of("login/" + userId.toString());
         try(var fileWriter = new FileWriter(filePath.toFile())) {
             String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
-            fileWriter.write(hashed);
+            fileWriter.write(userName + "\n" + hashed);
         } catch (IOException _) {
             log.error("Can't read file {}", filePath);
         }
